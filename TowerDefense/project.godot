@@ -18,6 +18,10 @@ config/features=PackedStringArray("4.0", "Forward Plus")
 
 Common="*res://src/common/Common.gd"
 
+[display]
+
+window/stretch/mode="viewport"
+
 [input]
 
 click={

@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://dkehtxv4fqahf"]
+[gd_scene load_steps=6 format=3 uid="uid://dkehtxv4fqahf"]
 
 [ext_resource type="TileSet" uid="uid://5ltlgl2jn6x0" path="res://assets/tiles/tile_set.tres" id="1_ql1mj"]
 [ext_resource type="Script" path="res://Main.gd" id="1_xguji"]
+[ext_resource type="Texture2D" uid="uid://wnmxh8h5445g" path="res://assets/images/cursor.png" id="3_i21nb"]
 [ext_resource type="Theme" uid="uid://dcvufg8c2ac10" path="res://assets/default_theme.tres" id="3_loh52"]
 
 [sub_resource type="Curve2D" id="Curve2D_qkjnf"]
@@ -33,6 +34,11 @@ curve = SubResource("Curve2D_qkjnf")
 position = Vector2(-16, 304)
 
 [node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="Cursor" type="Sprite2D" parent="UILayer"]
+visible = false
+texture = ExtResource("3_i21nb")
+centered = false
 
 [node name="HSliderGameSpeed" type="HSlider" parent="UILayer"]
 offset_left = 888.0
