@@ -1,7 +1,7 @@
 extends Node2D
 
-# 移動速度。128px/s
-const MOVE_SPEED = 128.0
+# 移動速度。64px/s
+const MOVE_SPEED = 64.0
 
 # PathFollow2Dが親となる.
 var _parent:PathFollow2D = null

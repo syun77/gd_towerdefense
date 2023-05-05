@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://dkehtxv4fqahf"]
+[gd_scene load_steps=7 format=3 uid="uid://dkehtxv4fqahf"]
 
 [ext_resource type="TileSet" uid="uid://5ltlgl2jn6x0" path="res://assets/tiles/tile_set.tres" id="1_ql1mj"]
 [ext_resource type="Script" path="res://Main.gd" id="1_xguji"]
-[ext_resource type="Texture2D" uid="uid://wnmxh8h5445g" path="res://assets/images/cursor.png" id="3_i21nb"]
+[ext_resource type="Texture2D" uid="uid://bcb46fbf6r80c" path="res://assets/images/cursor.png" id="3_i21nb"]
 [ext_resource type="Theme" uid="uid://dcvufg8c2ac10" path="res://assets/default_theme.tres" id="3_loh52"]
+[ext_resource type="Texture2D" uid="uid://kgd8ftrs63l0" path="res://assets/images/cross.png" id="4_4s62w"]
 
 [sub_resource type="Curve2D" id="Curve2D_qkjnf"]
 _data = {
@@ -38,7 +39,10 @@ position = Vector2(-32, 288)
 [node name="Cursor" type="Sprite2D" parent="UILayer"]
 visible = false
 texture = ExtResource("3_i21nb")
-centered = false
+
+[node name="Cross" type="Sprite2D" parent="UILayer/Cursor"]
+visible = false
+texture = ExtResource("4_4s62w")
 
 [node name="HSliderGameSpeed" type="HSlider" parent="UILayer"]
 offset_left = 888.0

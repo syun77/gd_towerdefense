@@ -1,15 +1,17 @@
 [gd_resource type="TileSet" load_steps=3 format=3 uid="uid://5ltlgl2jn6x0"]
 
-[ext_resource type="Texture2D" uid="uid://cihhwndgjlbpm" path="res://assets/tiles/pipo_map001.png" id="2_tfvkg"]
+[ext_resource type="Texture2D" uid="uid://5mas460grhyc" path="res://assets/tiles/pipo_map001.png" id="2_tfvkg"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_f76fg"]
 texture = ExtResource("2_tfvkg")
 texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
 1:0/0 = 0
+1:0/0/custom_data_0 = true
 0:1/0 = 0
 1:1/0 = 0
 2:1/0 = 0
+2:1/0/custom_data_0 = true
 3:1/0 = 0
 4:1/0 = 0
 5:1/0 = 0
@@ -51,7 +53,9 @@ texture_region_size = Vector2i(64, 64)
 1:6/0 = 0
 2:6/0 = 0
 3:6/0 = 0
+3:6/0/custom_data_0 = true
 4:6/0 = 0
+4:6/0/custom_data_0 = true
 5:6/0 = 0
 6:6/0 = 0
 7:6/0 = 0
@@ -59,7 +63,9 @@ texture_region_size = Vector2i(64, 64)
 1:7/0 = 0
 2:7/0 = 0
 3:7/0 = 0
+3:7/0/custom_data_0 = true
 4:7/0 = 0
+4:7/0/custom_data_0 = true
 5:7/0 = 0
 6:7/0 = 0
 0:8/0 = 0
@@ -82,4 +88,6 @@ texture_region_size = Vector2i(64, 64)
 
 [resource]
 tile_size = Vector2i(64, 64)
+custom_data_layer_0/name = "cant_build"
+custom_data_layer_0/type = 1
 sources/2 = SubResource("TileSetAtlasSource_f76fg")

@@ -17,6 +17,7 @@ config/features=PackedStringArray("4.0", "Forward Plus")
 [autoload]
 
 Common="*res://src/common/Common.gd"
+Map="*res://src/common/Map.gd"
 
 [display]
 
