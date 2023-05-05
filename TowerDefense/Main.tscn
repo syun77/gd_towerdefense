@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://dkehtxv4fqahf"]
+[gd_scene load_steps=5 format=3 uid="uid://dkehtxv4fqahf"]
 
 [ext_resource type="TileSet" uid="uid://5ltlgl2jn6x0" path="res://assets/tiles/tile_set.tres" id="1_ql1mj"]
 [ext_resource type="Script" path="res://Main.gd" id="1_xguji"]
+[ext_resource type="Theme" uid="uid://dcvufg8c2ac10" path="res://assets/default_theme.tres" id="3_loh52"]
 
 [sub_resource type="Curve2D" id="Curve2D_qkjnf"]
 _data = {
@@ -30,4 +31,22 @@ curve = SubResource("Curve2D_qkjnf")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
 position = Vector2(-16, 304)
-loop = false
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="HSliderGameSpeed" type="HSlider" parent="UILayer"]
+offset_left = 888.0
+offset_top = 16.0
+offset_right = 1136.0
+offset_bottom = 32.0
+max_value = 10.0
+step = 0.5
+value = 1.0
+
+[node name="Label" type="Label" parent="UILayer/HSliderGameSpeed"]
+layout_mode = 0
+offset_top = 24.0
+offset_right = 60.0
+offset_bottom = 61.0
+theme = ExtResource("3_loh52")
+text = "Speed"

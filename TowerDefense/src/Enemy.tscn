@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://ddotbjgw6c52u"]
+
+[ext_resource type="Script" path="res://src/Enemy.gd" id="1_lmwhq"]
+[ext_resource type="Texture2D" uid="uid://db7fk3vh00xm4" path="res://assets/images/tank.png" id="2_3v7hg"]
+
+[node name="Tank" type="Node2D"]
+script = ExtResource("1_lmwhq")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_3v7hg")
