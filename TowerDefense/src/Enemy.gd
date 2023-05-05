@@ -14,6 +14,8 @@ func setup(path2d:Path2D) -> void:
 	
 	# Path2Dに登録する.
 	path2d.add_child(_parent)
+	
+	$AnimatedSprite2D.play("default")
 
 ## 更新.
 func _physics_process(delta: float) -> void:

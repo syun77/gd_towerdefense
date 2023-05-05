@@ -33,7 +33,8 @@ const ENEMY_OBJ = preload("res://src/Enemy.tscn")
 # --------------------------------------------------
 ## 開始.
 func _ready() -> void:
-	DisplayServer.window_set_size(Vector2i(1152*2, 648*2))
+	#DisplayServer.window_set_size(Vector2i(1152*2, 648*2))
+	pass
 
 ## 更新.
 func _process(delta: float) -> void:

@@ -1,10 +1,33 @@
-[gd_scene load_steps=3 format=3 uid="uid://ddotbjgw6c52u"]
+[gd_scene load_steps=6 format=3 uid="uid://ddotbjgw6c52u"]
 
 [ext_resource type="Script" path="res://src/Enemy.gd" id="1_lmwhq"]
-[ext_resource type="Texture2D" uid="uid://db7fk3vh00xm4" path="res://assets/images/tank.png" id="2_3v7hg"]
+[ext_resource type="Texture2D" uid="uid://bawwywvpxecqs" path="res://assets/images/enemy.png" id="2_6x6yf"]
 
-[node name="Tank" type="Node2D"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_xu5rt"]
+atlas = ExtResource("2_6x6yf")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k2k4s"]
+atlas = ExtResource("2_6x6yf")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_trsun"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xu5rt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k2k4s")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="Enemy" type="Node2D"]
 script = ExtResource("1_lmwhq")
 
-[node name="Sprite" type="Sprite2D" parent="."]
-texture = ExtResource("2_3v7hg")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_trsun")
+frame_progress = 0.237551
