@@ -2,9 +2,9 @@
 
 [ext_resource type="TileSet" uid="uid://5ltlgl2jn6x0" path="res://assets/tiles/tile_set.tres" id="1_ql1mj"]
 [ext_resource type="Script" path="res://Main.gd" id="1_xguji"]
-[ext_resource type="Texture2D" uid="uid://bcb46fbf6r80c" path="res://assets/images/cursor.png" id="3_i21nb"]
+[ext_resource type="Texture2D" uid="uid://wnmxh8h5445g" path="res://assets/images/cursor.png" id="3_i21nb"]
 [ext_resource type="Theme" uid="uid://dcvufg8c2ac10" path="res://assets/default_theme.tres" id="3_loh52"]
-[ext_resource type="Texture2D" uid="uid://kgd8ftrs63l0" path="res://assets/images/cross.png" id="4_4s62w"]
+[ext_resource type="Texture2D" uid="uid://dpbi3wdyoie5y" path="res://assets/images/cross.png" id="4_4s62w"]
 [ext_resource type="PackedScene" uid="uid://c6fdhp7glsvv5" path="res://src/Tower.tscn" id="6_l6cws"]
 
 [sub_resource type="Curve2D" id="Curve2D_qkjnf"]
@@ -33,9 +33,6 @@ layer_1/tile_data = PackedInt32Array(196623, 196610, 6, 262159, 196610, 7, 19662
 
 [node name="Path2D" type="Path2D" parent="EnemyLayer"]
 curve = SubResource("Curve2D_qkjnf")
-
-[node name="PathFollow2D" type="PathFollow2D" parent="EnemyLayer/Path2D"]
-position = Vector2(-32, 288)
 
 [node name="ShotLayer" type="CanvasLayer" parent="."]
 
@@ -73,4 +70,4 @@ theme = ExtResource("3_loh52")
 text = "Debug"
 
 [node name="Tower" parent="." instance=ExtResource("6_l6cws")]
-position = Vector2(480, 224)
+position = Vector2(288, 352)

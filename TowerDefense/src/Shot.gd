@@ -22,6 +22,14 @@ func setup(pos:Vector2, deg:float, speed:float) -> void:
 	var rad = deg_to_rad(deg)
 	_velocity.x = speed * cos(rad)
 	_velocity.y = speed * -sin(rad)
+	
+## 消滅.
+func vansih() -> void:
+	queue_free()
+
+## 攻撃力.
+func get_power() -> int:
+	return 1
 
 ## 消滅する.
 func vanish() -> void:

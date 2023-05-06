@@ -72,7 +72,6 @@ func _shot(enemy:Enemy) -> bool:
 	
 	var d = enemy.global_position - position
 	var deg = rad_to_deg(atan2(-d.y, d.x))
-	print(deg)
 	
 	var shot = SHOT_OBJ.instantiate()
 	Common.get_layer("shot").add_child(shot)

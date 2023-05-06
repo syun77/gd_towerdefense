@@ -41,7 +41,7 @@ const ENEMY_OBJ = preload("res://src/Enemy.tscn")
 # --------------------------------------------------
 ## 開始.
 func _ready() -> void:
-	DisplayServer.window_set_size(Vector2i(1152*2, 648*2))
+	#DisplayServer.window_set_size(Vector2i(1152*2, 648*2))
 	
 	var layers = {
 		"enemy": _enemy_layer,
