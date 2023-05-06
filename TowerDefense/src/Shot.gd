@@ -1,47 +1,43 @@
 extends Area2D
 # ==================================================
-# 敵シーン.
+# ショットシーン.
 # ==================================================
-class_name Enemy
+class_name Shot
 
 # --------------------------------------------------
 # const.
 # --------------------------------------------------
-# 移動速度。64px/s
-const MOVE_SPEED = 64.0
 
 # --------------------------------------------------
 # private var.
 # --------------------------------------------------
-# PathFollow2Dが親となる.
-var _parent:PathFollow2D = null
+var _velocity = Vector2()
 
 # --------------------------------------------------
 # public function.
 # --------------------------------------------------
 ## セットアップ.
-func setup(path2d:Path2D) -> void:
-	_parent = PathFollow2D.new()
-	_parent.loop = false # ループしない.
-	_parent.add_child(self) # 自身を登録する.
-	
-	# Path2Dに登録する.
-	path2d.add_child(_parent)
-	
-	$AnimatedSprite2D.play("default")
+func setup(pos:Vector2, deg:float, speed:float) -> void:
+	position = pos
+	var rad = deg_to_rad(deg)
+	_velocity.x = speed * cos(rad)
+	_velocity.y = speed * -sin(rad)
+
+## 消滅する.
+func vanish() -> void:
+	queue_free()
 
 # --------------------------------------------------
 # private function.
 # --------------------------------------------------
+## 開始.
+func _ready() -> void:
+	pass
+
 ## 更新.
 func _physics_process(delta: float) -> void:
-	# 可変.
-	delta *= Common.game_speed
+	position += _velocity * delta
 	
-	# 移動処理
-	_parent.progress += MOVE_SPEED * delta
-	
-	# 終了チェック.
-	if _parent.progress_ratio >= 1.0:
-		# 親を消すことで自身も消える.
-		_parent.queue_free()
+	if Common.is_outside(self, 16):
+		# 画面外に出た.
+		vanish()

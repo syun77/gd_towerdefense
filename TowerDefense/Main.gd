@@ -17,14 +17,20 @@ const ENEMY_OBJ = preload("res://src/Enemy.tscn")
 # --------------------------------------------------
 # on ready.
 # --------------------------------------------------
-@onready var _path2d = $Path2D
+@onready var _path2d = $EnemyLayer/Path2D
 @onready var _tilemap = $TileMap
+# CanvasLayer.
+@onready var _enemy_layer = $EnemyLayer
+@onready var _shot_layer = $ShotLayer
+@onready var _ui_layer = $UILayer
 # UI.
 @onready var _ui_cursor = $UILayer/Cursor
 @onready var _ui_cursor_cross = $UILayer/Cursor/Cross
 
 @onready var _ui_game_speed  = $UILayer/HSliderGameSpeed
 @onready var _ui_game_speed_label = $UILayer/HSliderGameSpeed/Label
+
+@onready var _ui_debug_label = $UILayer/DebugLabel
 
 # --------------------------------------------------
 # private var.
@@ -36,6 +42,13 @@ const ENEMY_OBJ = preload("res://src/Enemy.tscn")
 ## 開始.
 func _ready() -> void:
 	DisplayServer.window_set_size(Vector2i(1152*2, 648*2))
+	
+	var layers = {
+		"enemy": _enemy_layer,
+		"shot": _shot_layer,
+		"ui": _ui_layer,
+	}
+	Common.setup(layers)
 	
 	Map.setup(_tilemap)
 
@@ -60,4 +73,4 @@ func _update_ui() -> void:
 	Common.game_speed = _ui_game_speed.value
 	_ui_game_speed_label.text = "SPEED x%3.1f"%Common.game_speed
 
-
+	_ui_debug_label.text = "Enemy:%d"%Common.get_enemies().size()

@@ -1,7 +1,7 @@
 [gd_resource type="Theme" load_steps=2 format=3 uid="uid://dcvufg8c2ac10"]
 
-[ext_resource type="FontFile" uid="uid://denr15ko7ets5" path="res://assets/fonts/mplus-1m-regular.otf" id="1_vhklr"]
+[ext_resource type="FontFile" uid="uid://dhnmmgg36b834" path="res://assets/fonts/mplus-1m-regular.otf" id="1_vhklr"]
 
 [resource]
 default_font = ExtResource("1_vhklr")
-default_font_size = 24
+default_font_size = 32

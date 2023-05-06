@@ -7,6 +7,7 @@ extends Node
 const OFS_X = 0
 const OFS_Y = 0
 
+## タイルマップのレイヤー.
 enum eTileLayer {
 	GROUND, # 地面.
 	TERRAIN, # 地形.
