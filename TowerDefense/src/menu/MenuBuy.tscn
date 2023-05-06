@@ -1,0 +1,54 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwhmapodemnmy"]
+
+[ext_resource type="Script" path="res://src/menu/MenuBuy.gd" id="1_ctvlr"]
+[ext_resource type="Theme" uid="uid://dcvufg8c2ac10" path="res://assets/default_theme.tres" id="1_u53uv"]
+
+[node name="MenuBuy" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ctvlr")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0, 0, 0, 0.156863)
+
+[node name="ButtonList" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 456.0
+offset_top = 200.0
+offset_right = 704.0
+offset_bottom = 436.0
+
+[node name="ButtonBuyNormal" type="Button" parent="ButtonList"]
+layout_mode = 2
+theme = ExtResource("1_u53uv")
+text = "通常 ($8)"
+
+[node name="ButtonBuyLaser" type="Button" parent="ButtonList"]
+layout_mode = 2
+theme = ExtResource("1_u53uv")
+text = "レーザー ($8)"
+
+[node name="ButtonBuyHorming" type="Button" parent="ButtonList"]
+layout_mode = 2
+theme = ExtResource("1_u53uv")
+text = "ホーミング ($8)"
+
+[node name="HSeparator" type="HSeparator" parent="ButtonList"]
+layout_mode = 2
+
+[node name="ButtonCancel" type="Button" parent="ButtonList"]
+layout_mode = 2
+theme = ExtResource("1_u53uv")
+text = "キャンセル"
+
+[connection signal="pressed" from="ButtonList/ButtonBuyNormal" to="." method="_on_button_buy_normal_pressed"]
+[connection signal="pressed" from="ButtonList/ButtonBuyLaser" to="." method="_on_button_buy_laser_pressed"]
+[connection signal="pressed" from="ButtonList/ButtonBuyHorming" to="." method="_on_button_buy_horming_pressed"]
+[connection signal="pressed" from="ButtonList/ButtonCancel" to="." method="_on_button_cancel_pressed"]

@@ -31,15 +31,9 @@ var _range = 128.0 # 射程範囲.
 func setup() -> void:
 	pass
 
-# --------------------------------------------------
-# private function.
-# --------------------------------------------------
-## 開始.
-func _ready() -> void:
-	_spr.rotation = PI
-
-## 更新.
-func _physics_process(delta: float) -> void:
+## 手動更新.
+func update_manual(delta:float) -> void:
+	delta *= Common.game_speed
 	_timer += delta
 
 	# 一番近い敵を探す.
@@ -54,6 +48,14 @@ func _physics_process(delta: float) -> void:
 	
 	# 描画.
 	queue_redraw()
+	
+
+# --------------------------------------------------
+# private function.
+# --------------------------------------------------
+## 開始.
+func _ready() -> void:
+	_spr.rotation = PI
 
 ## 更新 > 回転.
 func _update_rotate(enemy:Enemy) -> void:

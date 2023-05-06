@@ -29,6 +29,11 @@ layer_1/y_sort_origin = 0
 layer_1/z_index = 0
 layer_1/tile_data = PackedInt32Array(196623, 196610, 6, 262159, 196610, 7, 196624, 262146, 6, 262160, 262146, 7, 262152, 131074, 1, 458760, 131074, 1, 65550, 131074, 1, 65551, 131074, 1, 65552, 131074, 1, 65553, 131074, 1, 15, 131074, 1, 16, 131074, 1, 17, 131074, 1, 65549, 131074, 1, 13, 131074, 1, 14, 131074, 1, 12, 131074, 1, 458769, 131074, 1, 458768, 131074, 1, 458767, 131074, 1, 524303, 131074, 1, 524304, 131074, 1, 524305, 131074, 1, 589841, 131074, 1, 589840, 131074, 1, 589839, 131074, 1, 589838, 131074, 1, 131089, 131074, 1, 196625, 131074, 1, 262161, 131074, 1, 327697, 131074, 1, 393233, 131074, 1, 393232, 131074, 1, 131088, 131074, 1, 524288, 131074, 1, 524289, 131074, 1, 589826, 131074, 1, 589825, 131074, 1, 589824, 131074, 1, 0, 131074, 1, 65536, 131074, 1, 65537, 131074, 1, 1, 131074, 1, 2, 131074, 1, 3, 131074, 1, 393217, 131074, 1, 458752, 131074, 1, 589829, 131074, 1, 589830, 131074, 1, 589831, 131074, 1, 589832, 131074, 1, 8, 131074, 1, 4, 131074, 1)
 
+[node name="TowerLayer" type="CanvasLayer" parent="."]
+
+[node name="Tower" parent="TowerLayer" instance=ExtResource("6_l6cws")]
+position = Vector2(288, 352)
+
 [node name="EnemyLayer" type="CanvasLayer" parent="."]
 
 [node name="Path2D" type="Path2D" parent="EnemyLayer"]
@@ -46,11 +51,27 @@ texture = ExtResource("3_i21nb")
 visible = false
 texture = ExtResource("4_4s62w")
 
-[node name="HSliderGameSpeed" type="HSlider" parent="UILayer"]
-offset_left = 888.0
+[node name="LabelMoney" type="Label" parent="UILayer"]
+offset_left = 32.0
 offset_top = 16.0
-offset_right = 1136.0
-offset_bottom = 32.0
+offset_right = 112.0
+offset_bottom = 65.0
+theme = ExtResource("3_loh52")
+text = "所持金: $99999"
+
+[node name="LabelWave" type="Label" parent="UILayer"]
+offset_left = 32.0
+offset_top = 72.0
+offset_right = 256.0
+offset_bottom = 121.0
+theme = ExtResource("3_loh52")
+text = "ウェーブ"
+
+[node name="HSliderGameSpeed" type="HSlider" parent="UILayer"]
+offset_left = 960.0
+offset_top = 552.0
+offset_right = 1112.0
+offset_bottom = 568.0
 max_value = 10.0
 step = 0.5
 value = 1.0
@@ -63,11 +84,21 @@ offset_bottom = 61.0
 theme = ExtResource("3_loh52")
 text = "Speed"
 
-[node name="DebugLabel" type="Label" parent="UILayer"]
-offset_right = 200.0
-offset_bottom = 80.0
+[node name="DbgLayer" type="CanvasLayer" parent="UILayer"]
+
+[node name="DebugLabel" type="Label" parent="UILayer/DbgLayer"]
+offset_left = 16.0
+offset_top = 488.0
+offset_right = 216.0
+offset_bottom = 568.0
 theme = ExtResource("3_loh52")
 text = "Debug"
 
-[node name="Tower" parent="." instance=ExtResource("6_l6cws")]
-position = Vector2(288, 352)
+[node name="CheckAppearEnemy" type="CheckButton" parent="UILayer/DbgLayer"]
+offset_left = 8.0
+offset_top = 552.0
+offset_right = 184.0
+offset_bottom = 606.0
+theme = ExtResource("3_loh52")
+button_pressed = true
+text = "敵の出現"

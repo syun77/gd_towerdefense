@@ -1,7 +1,22 @@
 extends Node
+# ==================================================
+# 共通モジュール.
+# ==================================================
 
+# --------------------------------------------------
+# const.
+# --------------------------------------------------
+const INIT_MONEY = 20
+
+# --------------------------------------------------
+# private vars.
+# --------------------------------------------------
+var _money = INIT_MONEY
 var _layers = {}
 
+# --------------------------------------------------
+# public functions.
+# --------------------------------------------------
 func setup(layers:Dictionary) -> void:
 	_layers = layers
 
@@ -49,6 +64,21 @@ func is_outside(node:Node2D, size:float) -> bool:
 	if pos.y > rect.size.y + size:
 		return true
 	return false
+	
+func add_money(v:int) -> void:
+	_money += v
+func spend_money(v:int) -> void:
+	_money -= v
+
+# --------------------------------------------------
+# properties.
+# --------------------------------------------------
+## 所持金.
+var money:
+	set(v):
+		assert("can't call")
+	get:
+		return _money
 
 ## ゲーム速度.
 var game_speed = 1.0:

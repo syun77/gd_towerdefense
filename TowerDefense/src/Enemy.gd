@@ -24,6 +24,7 @@ var _parent:PathFollow2D = null
 
 var _hp:int = 0
 var _max_hp:int = 0
+var _money:int = 3 # 所持金.
 
 var _prev_pos = Vector2()
 
@@ -61,21 +62,15 @@ func damage(shot:Shot) -> void:
 	if _hp <= 0:
 		# 消滅.
 		vanish()
+		# お金ゲット!
+		Common.add_money(_money)
 
 ## 消滅.
 func vanish() -> void:
 	queue_free()
-
-# --------------------------------------------------
-# private function.
-# --------------------------------------------------
-## 開始.
-func _ready() -> void:
-	# 体力ゲージは消しておく.
-	_health_bar.visible = false
-
-## 更新.
-func _physics_process(delta: float) -> void:
+	
+## 手動更新 (_process()は使わない).
+func update_manual(delta:float) -> void:
 	# 可変.
 	delta *= Common.game_speed
 	
@@ -93,6 +88,16 @@ func _physics_process(delta: float) -> void:
 
 	# HPバーの更新.
 	_update_health_bar()
+	
+
+# --------------------------------------------------
+# private function.
+# --------------------------------------------------
+## 開始.
+func _ready() -> void:
+	# 体力ゲージは消しておく.
+	_health_bar.visible = false
+
 ## 回転処理.
 func _update_rotate():
 	var pos = _parent.position

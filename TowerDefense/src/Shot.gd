@@ -34,6 +34,15 @@ func get_power() -> int:
 ## 消滅する.
 func vanish() -> void:
 	queue_free()
+	
+## 手動更新.
+func update_manual(delta:float) -> void:
+	delta *= Common.game_speed
+	position += _velocity * delta
+	
+	if Common.is_outside(self, 16):
+		# 画面外に出た.
+		vanish()
 
 # --------------------------------------------------
 # private function.
@@ -41,11 +50,3 @@ func vanish() -> void:
 ## 開始.
 func _ready() -> void:
 	pass
-
-## 更新.
-func _physics_process(delta: float) -> void:
-	position += _velocity * delta
-	
-	if Common.is_outside(self, 16):
-		# 画面外に出た.
-		vanish()
