@@ -28,8 +28,8 @@ var _range = 128.0 # 射程範囲.
 # --------------------------------------------------
 # public function.
 # --------------------------------------------------
-func setup() -> void:
-	pass
+func setup(pos:Vector2) -> void:
+	position = pos
 
 ## 手動更新.
 func update_manual(delta:float) -> void:

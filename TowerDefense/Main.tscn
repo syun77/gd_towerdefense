@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://dkehtxv4fqahf"]
+[gd_scene load_steps=9 format=3 uid="uid://dkehtxv4fqahf"]
 
 [ext_resource type="TileSet" uid="uid://5ltlgl2jn6x0" path="res://assets/tiles/tile_set.tres" id="1_ql1mj"]
 [ext_resource type="Script" path="res://Main.gd" id="1_xguji"]
 [ext_resource type="Texture2D" uid="uid://wnmxh8h5445g" path="res://assets/images/cursor.png" id="3_i21nb"]
 [ext_resource type="Theme" uid="uid://dcvufg8c2ac10" path="res://assets/default_theme.tres" id="3_loh52"]
 [ext_resource type="Texture2D" uid="uid://dpbi3wdyoie5y" path="res://assets/images/cross.png" id="4_4s62w"]
+[ext_resource type="Texture2D" uid="uid://bbs65cptlf2m3" path="res://assets/images/tower.png" id="6_co0mt"]
 [ext_resource type="PackedScene" uid="uid://c6fdhp7glsvv5" path="res://src/Tower.tscn" id="6_l6cws"]
 
 [sub_resource type="Curve2D" id="Curve2D_qkjnf"]
@@ -44,12 +45,17 @@ curve = SubResource("Curve2D_qkjnf")
 [node name="UILayer" type="CanvasLayer" parent="."]
 
 [node name="Cursor" type="Sprite2D" parent="UILayer"]
-visible = false
 texture = ExtResource("3_i21nb")
 
 [node name="Cross" type="Sprite2D" parent="UILayer/Cursor"]
 visible = false
 texture = ExtResource("4_4s62w")
+
+[node name="Tower" type="Sprite2D" parent="UILayer/Cursor"]
+visible = false
+modulate = Color(1, 1, 1, 0.501961)
+rotation = 3.14159
+texture = ExtResource("6_co0mt")
 
 [node name="LabelMoney" type="Label" parent="UILayer"]
 offset_left = 32.0

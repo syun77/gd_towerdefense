@@ -21,6 +21,7 @@ enum eMode {
 # preload.
 # --------------------------------------------------
 const ENEMY_OBJ = preload("res://src/Enemy.tscn")
+const TOWER_OBJ = preload("res://src/Tower.tscn")
 const MENU_BUY_OBJ = preload("res://src/menu/MenuBuy.tscn")
 
 # --------------------------------------------------
@@ -36,6 +37,7 @@ const MENU_BUY_OBJ = preload("res://src/menu/MenuBuy.tscn")
 # UI.
 @onready var _ui_cursor = $UILayer/Cursor
 @onready var _ui_cursor_cross = $UILayer/Cursor/Cross
+@onready var _ui_cursor_tower = $UILayer/Cursor/Tower
 @onready var _ui_money = $UILayer/LabelMoney
 @onready var _ui_wave = $UILayer/LabelWave
 @onready var _ui_game_speed  = $UILayer/HSliderGameSpeed
@@ -77,6 +79,8 @@ func _process(delta: float) -> void:
 			_update_objs(delta)
 		eMode.BUY:
 			_update_buy()
+		eMode.BUILD:
+			_update_build()
 	# UIの更新.
 	_update_ui()
 
@@ -85,6 +89,7 @@ func _update_free(delta:float) -> void:
 	# 敵の出現.
 	_update_appear_enemy(delta)
 	
+	# カーソルの更新.
 	_ui_cursor.position = Map.get_mouse_pos(true)
 	_ui_cursor.visible = true
 	var mouse_grid_pos = Map.get_grid_mouse_pos()
@@ -100,6 +105,36 @@ func _update_buy() -> void:
 	if _menu.closed():
 		var result = _menu.get_result()
 		_menu.queue_free()
+		match result:
+			MenuCommon.eResult.BUY_NORMAL, MenuCommon.eResult.BUY_LASER, MenuCommon.eResult.BUY_HORMING:
+				# 購入.
+				_mode = eMode.BUILD
+			_:
+				_mode = eMode.FREE
+
+## 更新 > ビルド(配置).
+func _update_build() -> void:
+	# カーソルの更新.
+	_ui_cursor.position = Map.get_mouse_pos(true)
+	_ui_cursor.visible = true
+	# 配置できるかどうか.
+	var mouse_grid_pos = Map.get_grid_mouse_pos()
+	var cant_build = Map.cant_build_position(mouse_grid_pos)
+	_ui_cursor_cross.visible = cant_build
+	_ui_cursor_tower.visible = (cant_build == false)
+	if Input.is_action_just_pressed("click"):
+		var cost = 8
+		if Common.money >= cost:
+			# ビルドする.
+			var tower = TOWER_OBJ.instantiate()
+			_tower_layer.add_child(tower)
+			tower.setup(_ui_cursor.position)
+			# お金を減らす.
+			Common.spend_money(cost)
+	elif Input.is_action_just_pressed("right-click"):
+		# キャンセル.
+		_ui_cursor_cross.visible = false
+		_ui_cursor_tower.visible = false
 		_mode = eMode.FREE
 
 ## 更新 > ゲームオブジェクト.
