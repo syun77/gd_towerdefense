@@ -12,16 +12,18 @@ class_name Shot
 # private var.
 # --------------------------------------------------
 var _velocity = Vector2()
+var _power = 1 # 攻撃力.
 
 # --------------------------------------------------
 # public function.
 # --------------------------------------------------
 ## セットアップ.
-func setup(pos:Vector2, deg:float, speed:float) -> void:
+func setup(pos:Vector2, deg:float, speed:float, power:int) -> void:
 	position = pos
 	var rad = deg_to_rad(deg)
 	_velocity.x = speed * cos(rad)
 	_velocity.y = speed * -sin(rad)
+	_power = power
 	
 ## 消滅.
 func vansih() -> void:
@@ -29,7 +31,7 @@ func vansih() -> void:
 
 ## 攻撃力.
 func get_power() -> int:
-	return 1
+	return _power
 
 ## 消滅する.
 func vanish() -> void:

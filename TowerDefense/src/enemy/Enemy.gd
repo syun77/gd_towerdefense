@@ -9,11 +9,13 @@ class_name Enemy
 # --------------------------------------------------
 # 移動速度。64px/s
 const MOVE_SPEED = 64.0
+const TIMER_SHAKE = 0.5
 
 # --------------------------------------------------
 # onready.
 # --------------------------------------------------
 @onready var _spr = $AnimatedSprite2D
+@onready var _mask = $Mask
 @onready var _health_bar = $HeathBar
 
 # --------------------------------------------------
@@ -24,13 +26,19 @@ var _parent:PathFollow2D = null
 
 var _hp:int = 0
 var _max_hp:int = 0
-var _money:int = 3 # 所持金.
+var _speed:float = 1.0
 
 var _prev_pos = Vector2()
+var _timer_shake = 0.0
+var _cnt = 0
 
 # --------------------------------------------------
 # public function.
 # --------------------------------------------------
+## サイズ.
+func get_size() -> float:
+	return 32.0
+
 ## セットアップ.
 func setup(path2d:Path2D) -> void:
 	_parent = PathFollow2D.new()
@@ -43,8 +51,13 @@ func setup(path2d:Path2D) -> void:
 	
 	# アニメーションを再生.
 	$AnimatedSprite2D.play("default")
+
+	# HPの設定.
+	var hp = Game.enemy_hp(Common.wave)	
+	set_hp(hp)
 	
-	set_hp(3)
+	# 速度の設定.
+	_speed = Game.enemy_speed(Common.wave)
 	
 ## HPを設定.
 func set_hp(v:int) -> void:
@@ -57,13 +70,15 @@ func get_hpratio() -> float:
 
 ## ダメージ処理.
 func damage(shot:Shot) -> void:
+	_timer_shake = TIMER_SHAKE
 	var power = shot.get_power()
 	_hp -= power
 	if _hp <= 0:
 		# 消滅.
 		vanish()
 		# お金ゲット!
-		Common.add_money(_money)
+		var money = Game.enemy_money(Common.wave)
+		Common.add_money(money)
 
 ## 消滅.
 func vanish() -> void:
@@ -71,14 +86,20 @@ func vanish() -> void:
 	
 ## 手動更新 (_process()は使わない).
 func update_manual(delta:float) -> void:
+	_cnt += 1
+	
 	# 可変.
 	delta *= Common.game_speed
 	
 	# 移動処理
-	_parent.progress += MOVE_SPEED * delta
+	_parent.progress += MOVE_SPEED * _speed * delta
 	
 	# 回転処理.
 	_update_rotate()
+	
+	# 揺れ処理.
+	if delta > 0:
+		_update_shake(delta)
 	
 	# 終了チェック.
 	if _parent.progress_ratio >= 1.0:
@@ -103,6 +124,7 @@ func _update_rotate():
 	var pos = _parent.position
 	var d = pos - _prev_pos
 	_spr.rotation = d.angle()
+	_mask.rotation = d.angle()
 	_prev_pos = pos
 
 ## HPバーの更新.
@@ -111,6 +133,32 @@ func _update_health_bar() -> void:
 	if rate < 1.0:
 		_health_bar.visible = true
 		_health_bar.value = 100 * rate
+		
+## 揺れ処理.
+func _update_shake(delta:float) -> void:
+	if _timer_shake <= 0:
+		return
+	
+	_timer_shake -= delta
+	var rate = _timer_shake / TIMER_SHAKE
+	var red = Color.RED
+	red.a = rate
+	if _cnt%4 < 2:
+		red.a = 0
+	_mask.modulate = red
+	_mask.visible = true
+	
+	var xofs = 2 * rate
+	if _cnt%4 < 2:
+		xofs *= -1
+	var yofs = 1 * rate * randi_range(-1, 1)
+	_spr.offset.x = xofs
+	_spr.offset.y = yofs
+	
+	if _timer_shake <= 0:
+		# 終了.
+		_spr.offset = Vector2.ZERO
+		_mask.visible = false
 	
 # --------------------------------------------------
 # signal function.

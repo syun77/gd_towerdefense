@@ -1,15 +1,16 @@
-[gd_scene load_steps=8 format=3 uid="uid://ddotbjgw6c52u"]
+[gd_scene load_steps=9 format=3 uid="uid://bn8a8pr5xtdm0"]
 
-[ext_resource type="Script" path="res://src/Enemy.gd" id="1_lmwhq"]
-[ext_resource type="Texture2D" uid="uid://bawwywvpxecqs" path="res://assets/images/enemy.png" id="2_6x6yf"]
-[ext_resource type="Theme" uid="uid://fyhjacjjpd4l" path="res://assets/health_bar.tres" id="3_c8gy8"]
+[ext_resource type="Script" path="res://src/enemy/Enemy.gd" id="1_aeab3"]
+[ext_resource type="Texture2D" uid="uid://b0b66npwikdk3" path="res://assets/images/enemy_mask.png" id="2_bems1"]
+[ext_resource type="Texture2D" uid="uid://bh3ntvqgn51yh" path="res://assets/images/enemy.png" id="2_m11hc"]
+[ext_resource type="Theme" uid="uid://fyhjacjjpd4l" path="res://assets/health_bar.tres" id="3_l4pnt"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xu5rt"]
-atlas = ExtResource("2_6x6yf")
+atlas = ExtResource("2_m11hc")
 region = Rect2(0, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k2k4s"]
-atlas = ExtResource("2_6x6yf")
+atlas = ExtResource("2_m11hc")
 region = Rect2(64, 0, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_trsun"]
@@ -32,11 +33,15 @@ radius = 32.0
 [node name="Enemy" type="Area2D"]
 collision_layer = 4
 collision_mask = 2
-script = ExtResource("1_lmwhq")
+script = ExtResource("1_aeab3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_trsun")
 frame_progress = 0.237551
+
+[node name="Mask" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("2_bems1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_jgev0")
@@ -46,7 +51,7 @@ offset_left = -18.0
 offset_top = 19.0
 offset_right = 18.0
 offset_bottom = 23.0
-theme = ExtResource("3_c8gy8")
+theme = ExtResource("3_l4pnt")
 step = 1.0
 value = 70.0
 show_percentage = false

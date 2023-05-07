@@ -1,12 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://dkehtxv4fqahf"]
+[gd_scene load_steps=8 format=3 uid="uid://dkehtxv4fqahf"]
 
 [ext_resource type="TileSet" uid="uid://5ltlgl2jn6x0" path="res://assets/tiles/tile_set.tres" id="1_ql1mj"]
 [ext_resource type="Script" path="res://Main.gd" id="1_xguji"]
-[ext_resource type="Texture2D" uid="uid://wnmxh8h5445g" path="res://assets/images/cursor.png" id="3_i21nb"]
+[ext_resource type="Texture2D" uid="uid://bcb46fbf6r80c" path="res://assets/images/cursor.png" id="3_i21nb"]
 [ext_resource type="Theme" uid="uid://dcvufg8c2ac10" path="res://assets/default_theme.tres" id="3_loh52"]
-[ext_resource type="Texture2D" uid="uid://dpbi3wdyoie5y" path="res://assets/images/cross.png" id="4_4s62w"]
-[ext_resource type="Texture2D" uid="uid://bbs65cptlf2m3" path="res://assets/images/tower.png" id="6_co0mt"]
-[ext_resource type="PackedScene" uid="uid://c6fdhp7glsvv5" path="res://src/Tower.tscn" id="6_l6cws"]
+[ext_resource type="Texture2D" uid="uid://kgd8ftrs63l0" path="res://assets/images/cross.png" id="4_4s62w"]
+[ext_resource type="Texture2D" uid="uid://bsaeef4m830po" path="res://assets/images/tower.png" id="6_co0mt"]
 
 [sub_resource type="Curve2D" id="Curve2D_qkjnf"]
 _data = {
@@ -32,9 +31,6 @@ layer_1/tile_data = PackedInt32Array(196623, 196610, 6, 262159, 196610, 7, 19662
 
 [node name="TowerLayer" type="CanvasLayer" parent="."]
 
-[node name="Tower" parent="TowerLayer" instance=ExtResource("6_l6cws")]
-position = Vector2(288, 352)
-
 [node name="EnemyLayer" type="CanvasLayer" parent="."]
 
 [node name="Path2D" type="Path2D" parent="EnemyLayer"]
@@ -43,6 +39,25 @@ curve = SubResource("Curve2D_qkjnf")
 [node name="ShotLayer" type="CanvasLayer" parent="."]
 
 [node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="PauseBG" type="Node2D" parent="UILayer"]
+
+[node name="ColorRect" type="ColorRect" parent="UILayer/PauseBG"]
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0, 0, 0, 0.235294)
+
+[node name="Label" type="Label" parent="UILayer/PauseBG"]
+offset_right = 1152.0
+offset_bottom = 71.0
+theme = ExtResource("3_loh52")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 1, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 48
+text = "<<一時停止中>>"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Cursor" type="Sprite2D" parent="UILayer"]
 texture = ExtResource("3_i21nb")
@@ -73,6 +88,14 @@ offset_bottom = 121.0
 theme = ExtResource("3_loh52")
 text = "ウェーブ"
 
+[node name="LabelEnemy" type="Label" parent="UILayer"]
+offset_left = 32.0
+offset_top = 128.0
+offset_right = 232.0
+offset_bottom = 208.0
+theme = ExtResource("3_loh52")
+text = "敵"
+
 [node name="HSliderGameSpeed" type="HSlider" parent="UILayer"]
 offset_left = 960.0
 offset_top = 552.0
@@ -91,14 +114,6 @@ theme = ExtResource("3_loh52")
 text = "Speed"
 
 [node name="DbgLayer" type="CanvasLayer" parent="UILayer"]
-
-[node name="DebugLabel" type="Label" parent="UILayer/DbgLayer"]
-offset_left = 16.0
-offset_top = 488.0
-offset_right = 216.0
-offset_bottom = 568.0
-theme = ExtResource("3_loh52")
-text = "Debug"
 
 [node name="CheckAppearEnemy" type="CheckButton" parent="UILayer/DbgLayer"]
 offset_left = 8.0

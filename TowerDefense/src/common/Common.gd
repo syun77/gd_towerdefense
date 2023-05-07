@@ -7,12 +7,14 @@ extends Node
 # const.
 # --------------------------------------------------
 const INIT_MONEY = 20
+const INT_WAVE = 0 # 最初に+1するので0始まり.
 
 # --------------------------------------------------
 # private vars.
 # --------------------------------------------------
 var _money = INIT_MONEY
 var _layers = {}
+var _wave = INT_WAVE # Wave数.
 
 # --------------------------------------------------
 # public functions.
@@ -43,6 +45,7 @@ func search_nearest_enemy(pos:Vector2, range:float) -> Enemy:
 	var ret:Enemy = null
 	for enemy in enemies:
 		var dist2 = enemy.global_position.distance_to(pos)
+		dist2 -= enemy.get_size() # 半径を考慮する.
 		if dist2 < dist:
 			# より近い.
 			dist = dist2
@@ -70,6 +73,9 @@ func add_money(v:int) -> void:
 func spend_money(v:int) -> void:
 	_money -= v
 
+func next_wave() -> void:
+	_wave += 1
+
 # --------------------------------------------------
 # properties.
 # --------------------------------------------------
@@ -79,6 +85,13 @@ var money:
 		assert("can't call")
 	get:
 		return _money
+
+## Wave数
+var wave:
+	set(v):
+		assert("can't call")
+	get:
+		return _wave
 
 ## ゲーム速度.
 var game_speed = 1.0:
