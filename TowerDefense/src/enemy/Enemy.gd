@@ -82,14 +82,12 @@ func damage(shot:Shot) -> void:
 
 ## 消滅.
 func vanish() -> void:
-	queue_free()
+	# 親を消すことで自身も消える.
+	_parent.queue_free()
 	
 ## 手動更新 (_process()は使わない).
 func update_manual(delta:float) -> void:
 	_cnt += 1
-	
-	# 可変.
-	delta *= Common.game_speed
 	
 	# 移動処理
 	_parent.progress += MOVE_SPEED * _speed * delta
@@ -103,8 +101,9 @@ func update_manual(delta:float) -> void:
 	
 	# 終了チェック.
 	if _parent.progress_ratio >= 1.0:
-		# 親を消すことで自身も消える.
-		_parent.queue_free()
+		# ダメージを与えた.
+		Common.damage_hp(1)
+		vanish()
 		return
 
 	# HPバーの更新.
@@ -123,8 +122,9 @@ func _ready() -> void:
 func _update_rotate():
 	var pos = _parent.position
 	var d = pos - _prev_pos
-	_spr.rotation = d.angle()
-	_mask.rotation = d.angle()
+	var angle = lerp_angle(_spr.rotation, d.angle(), 0.1*Common.game_speed)
+	_spr.rotation = angle
+	_mask.rotation = angle
 	_prev_pos = pos
 
 ## HPバーの更新.

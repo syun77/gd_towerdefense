@@ -1,5 +1,7 @@
 extends MenuCommon
 
+var _cnt = 0
+
 ## 開始.
 func _ready() -> void:
 	var cnt_normal = 0
@@ -36,9 +38,12 @@ func _ready() -> void:
 				btn.disabled = money < cost_horming
 
 ## 更新.
-func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("right-click"):
-		_result = eResult.CANCEL
+func _process(_delta: float) -> void:
+	_cnt += 1
+	
+	if _cnt > 1: # 初回は処理しない.
+		if Input.is_action_just_pressed("right-click"):
+			_result = eResult.CANCEL
 
 ## キャンセルボタン.
 func _on_button_cancel_pressed() -> void:

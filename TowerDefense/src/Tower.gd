@@ -7,6 +7,8 @@ class_name Tower
 # --------------------------------------------------
 # const.
 # --------------------------------------------------
+const SELECTED_TIMER = 0.5
+
 enum eType {
 	NORMAL,
 	LASER,
@@ -22,15 +24,15 @@ var SHOT_OBJ = preload("res://src/Shot.tscn")
 # onready.
 # --------------------------------------------------
 @onready var _spr = $Sprite
+@onready var _help = $Help
+@onready var _helo_label = $Help/Label
 
 # --------------------------------------------------
 # private var.
 # --------------------------------------------------
 var _type = eType.NORMAL
 var _timer = 0.0
-var _range_lv = 1 # 射程範囲Lv.
-var _power_lv = 1 # 攻撃力Lv.
-var _firerate_lv = 1 # 発射間隔Lv.
+var _selected_timer = 0.0
 
 # --------------------------------------------------
 # public function.
@@ -40,13 +42,13 @@ func get_type() -> eType:
 	return _type
 ## 攻撃力.
 func get_power() -> int:
-	return Game.tower_power(_power_lv)
+	return Game.tower_power(power_lv)
 ## 射程範囲.
 func get_range() -> float:
-	return Game.tower_range(_power_lv)
+	return Game.tower_range(range_lv)
 ## 発射間隔.
 func get_firerate() -> float:
-	return Game.tower_firerate(_power_lv)
+	return Game.tower_firerate(firerate_lv)
 
 ## セットアップ.
 func setup(pos:Vector2) -> void:
@@ -54,8 +56,9 @@ func setup(pos:Vector2) -> void:
 
 ## 手動更新.
 func update_manual(delta:float) -> void:
-	delta *= Common.game_speed
 	_timer += delta
+	
+	_selected_timer = max(0, _selected_timer - delta)
 
 	# 一番近い敵を探す.
 	var range = get_range()
@@ -68,9 +71,7 @@ func update_manual(delta:float) -> void:
 		if _shot(enemy):
 			# 発射できた.
 			_timer = 0
-	
-	# 描画.
-	queue_redraw()
+
 	
 
 # --------------------------------------------------
@@ -79,6 +80,17 @@ func update_manual(delta:float) -> void:
 ## 開始.
 func _ready() -> void:
 	_spr.rotation = PI
+	_help.visible = false
+
+## 更新.
+func _process(_delta: float) -> void:
+	# ヘルプの更新.
+	_helo_label.text = "POWER: LV%d"%power_lv
+	_helo_label.text += "\nRANGE: LV%d"%range_lv
+	_helo_label.text += "\nFIRERATE: LV%d"%firerate_lv
+		
+	# 描画.
+	queue_redraw()
 
 ## 更新 > 回転.
 func _update_rotate(enemy:Enemy) -> void:
@@ -88,7 +100,8 @@ func _update_rotate(enemy:Enemy) -> void:
 	var d = enemy.global_position - position
 	var rad = d.angle()
 	
-	_spr.rotation = lerp_angle(_spr.rotation, rad, 0.3)
+	var rate = min(1.0, 0.3*Common.game_speed)
+	_spr.rotation = lerp_angle(_spr.rotation, rad, rate)
 
 ## ショットを発射する.
 func _shot(enemy:Enemy) -> bool:
@@ -107,10 +120,21 @@ func _shot(enemy:Enemy) -> bool:
 
 ## 描画.
 func _draw() -> void:
+	_help.visible = false
 	if selected:
+		_help.visible = true
 		# 射程範囲の描画.
-		var range = get_range()
-		draw_arc(Vector2.ZERO, range, 0, 2*PI, 32, Color.AQUA)
+		var rate = 1.0 - Ease.expo_in(_selected_timer / SELECTED_TIMER)
+		_help.scale = Vector2.ONE * rate
+		var range = get_range() * rate
+		var color = Color.AQUA
+		color.a = 0.3
+		draw_circle(Vector2.ZERO, range, color)
+		var color2 = Color.WHITE
+		for ofs in [0, 0.1, 0.2]:
+			var rate2 = fmod((_timer + ofs) * 0.5, 1.0)
+			color2.a = 1.0 - rate2
+			draw_arc(Vector2.ZERO, range*Ease.expo_out(rate2), 0, 2*PI, 32, color2)
 
 # --------------------------------------------------
 # property function.
@@ -118,6 +142,24 @@ func _draw() -> void:
 ## 選択しているかどうか.
 var selected = false:
 	set(v):
+		if selected == false and v:
+			_selected_timer = SELECTED_TIMER
 		selected = v
 	get:
 		return selected
+
+var range_lv = 1: # 射程範囲Lv.
+	set(v):
+		range_lv = v
+	get:
+		return range_lv
+var power_lv = 1: # 攻撃力Lv.
+	set(v):
+		power_lv = v
+	get:
+		return power_lv
+var firerate_lv = 1: # 発射間隔Lv.
+	set(v):
+		firerate_lv = v
+	get:
+		return firerate_lv

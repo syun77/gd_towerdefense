@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://d1n0h34vg4smx"]
+
+[ext_resource type="Theme" uid="uid://dcvufg8c2ac10" path="res://assets/default_theme.tres" id="1_6gx1a"]
+[ext_resource type="Script" path="res://src/WaveStart.gd" id="1_ejoce"]
+[ext_resource type="FontFile" uid="uid://bx6dkxtob0gbd" path="res://assets/fonts/Xolonium-Regular.ttf" id="2_dcugg"]
+
+[node name="WaveStart" type="Node2D"]
+script = ExtResource("1_ejoce")
+
+[node name="Bg" type="Node2D" parent="."]
+position = Vector2(576, 324)
+
+[node name="ColorRect" type="ColorRect" parent="Bg"]
+offset_left = -576.0
+offset_top = -52.0
+offset_right = 576.0
+offset_bottom = 44.0
+color = Color(0, 0, 0, 0.313726)
+
+[node name="Caption" type="Node2D" parent="."]
+
+[node name="LabelCaption" type="Label" parent="Caption"]
+offset_top = 280.0
+offset_right = 1152.0
+offset_bottom = 361.0
+theme = ExtResource("1_6gx1a")
+theme_override_colors/font_outline_color = Color(0, 1, 0, 1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/font = ExtResource("2_dcugg")
+theme_override_font_sizes/font_size = 64
+text = "WAVE 999"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -16,10 +16,23 @@ func tower_power(lv:int) -> int:
 func tower_firerate(lv:int) -> float:
 	return 2.0 * pow(0.9, (lv-1))
 	
-## コスト＝ 8 * (1.3 ^ 砲台の存在数)
+## 製造コスト＝ 8 * (1.3 ^ 砲台の存在数)
 func tower_cost(num:int) -> int:
 	var base = 8
 	var cost = 8 * pow(1.3, num)
+	return cost
+	
+## 射程範囲のアップグレード
+func tower_upgrade_range(lv:int) -> int:
+	var cost = 10 * pow(1.5, (lv-1))
+	return int(cost)
+## 攻撃威力のアップグレード.
+func tower_upgrade_power(lv:int) -> int:
+	var cost = 20 * pow(1.5, (lv-1))
+	return cost
+## 発射間隔のアップグレード.
+func tower_upgrade_firerate(lv:int) -> int:
+	var cost = 15 * pow(1.5, (lv-1))
 	return cost
 
 # --------------------------------------------------

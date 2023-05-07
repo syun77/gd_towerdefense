@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dkehtxv4fqahf"]
+[gd_scene load_steps=12 format=3 uid="uid://dkehtxv4fqahf"]
 
 [ext_resource type="TileSet" uid="uid://5ltlgl2jn6x0" path="res://assets/tiles/tile_set.tres" id="1_ql1mj"]
 [ext_resource type="Script" path="res://Main.gd" id="1_xguji"]
@@ -6,12 +6,22 @@
 [ext_resource type="Theme" uid="uid://dcvufg8c2ac10" path="res://assets/default_theme.tres" id="3_loh52"]
 [ext_resource type="Texture2D" uid="uid://kgd8ftrs63l0" path="res://assets/images/cross.png" id="4_4s62w"]
 [ext_resource type="Texture2D" uid="uid://bsaeef4m830po" path="res://assets/images/tower.png" id="6_co0mt"]
+[ext_resource type="Texture2D" uid="uid://dri454jjcb865" path="res://assets/images/heart.png" id="7_if1d0"]
+[ext_resource type="FontFile" uid="uid://bx6dkxtob0gbd" path="res://assets/fonts/Xolonium-Regular.ttf" id="7_v3qne"]
 
 [sub_resource type="Curve2D" id="Curve2D_qkjnf"]
 _data = {
 "points": PackedVector2Array(0, 0, 0, 0, -32, 288, 0, 0, 0, 0, 224, 288, 0, 0, 0, 0, 224, 416, 0, 0, 0, 0, 416, 416, 0, 0, 0, 0, 416, 160, 0, 0, 0, 0, 672, 160, 0, 0, 0, 0, 672, 544, 0, 0, 0, 0, 800, 544, 0, 0, 0, 0, 800, 352, 0, 0, 0, 0, 864, 352, 0, 0, 0, 0, 864, 288, 0, 0, 0, 0, 1024, 288)
 }
 point_count = 12
+
+[sub_resource type="Theme" id="Theme_jkvvq"]
+default_font = ExtResource("7_v3qne")
+default_font_size = 64
+
+[sub_resource type="Theme" id="Theme_ikk4q"]
+default_font = ExtResource("7_v3qne")
+default_font_size = 24
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_xguji")
@@ -29,14 +39,20 @@ layer_1/y_sort_origin = 0
 layer_1/z_index = 0
 layer_1/tile_data = PackedInt32Array(196623, 196610, 6, 262159, 196610, 7, 196624, 262146, 6, 262160, 262146, 7, 262152, 131074, 1, 458760, 131074, 1, 65550, 131074, 1, 65551, 131074, 1, 65552, 131074, 1, 65553, 131074, 1, 15, 131074, 1, 16, 131074, 1, 17, 131074, 1, 65549, 131074, 1, 13, 131074, 1, 14, 131074, 1, 12, 131074, 1, 458769, 131074, 1, 458768, 131074, 1, 458767, 131074, 1, 524303, 131074, 1, 524304, 131074, 1, 524305, 131074, 1, 589841, 131074, 1, 589840, 131074, 1, 589839, 131074, 1, 589838, 131074, 1, 131089, 131074, 1, 196625, 131074, 1, 262161, 131074, 1, 327697, 131074, 1, 393233, 131074, 1, 393232, 131074, 1, 131088, 131074, 1, 524288, 131074, 1, 524289, 131074, 1, 589826, 131074, 1, 589825, 131074, 1, 589824, 131074, 1, 0, 131074, 1, 65536, 131074, 1, 65537, 131074, 1, 1, 131074, 1, 2, 131074, 1, 3, 131074, 1, 393217, 131074, 1, 458752, 131074, 1, 589829, 131074, 1, 589830, 131074, 1, 589831, 131074, 1, 589832, 131074, 1, 8, 131074, 1, 4, 131074, 1)
 
-[node name="TowerLayer" type="CanvasLayer" parent="."]
-
 [node name="EnemyLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
 
 [node name="Path2D" type="Path2D" parent="EnemyLayer"]
 curve = SubResource("Curve2D_qkjnf")
 
+[node name="TowerLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
 [node name="ShotLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="ParticleLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 
@@ -71,6 +87,14 @@ visible = false
 modulate = Color(1, 1, 1, 0.501961)
 rotation = 3.14159
 texture = ExtResource("6_co0mt")
+
+[node name="ButtonNext" type="Button" parent="UILayer"]
+offset_left = 992.0
+offset_top = 448.0
+offset_right = 1128.0
+offset_bottom = 502.0
+theme = ExtResource("3_loh52")
+text = "開始"
 
 [node name="LabelMoney" type="Label" parent="UILayer"]
 offset_left = 32.0
@@ -123,3 +147,60 @@ offset_bottom = 606.0
 theme = ExtResource("3_loh52")
 button_pressed = true
 text = "敵の出現"
+
+[node name="LabelCaption" type="Label" parent="UILayer"]
+anchors_preset = -1
+anchor_left = -0.166667
+anchor_right = 0.784722
+anchor_bottom = 0.137346
+offset_left = 192.0
+offset_top = 224.0
+offset_right = 232.0
+offset_bottom = 247.0
+theme = SubResource("Theme_jkvvq")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 16
+text = "GAME OVER"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Help" type="Node2D" parent="UILayer"]
+
+[node name="ColorRect" type="ColorRect" parent="UILayer/Help"]
+offset_left = 776.0
+offset_right = 1152.0
+offset_bottom = 32.0
+color = Color(0, 0, 0, 0.470588)
+
+[node name="Label" type="Label" parent="UILayer/Help"]
+offset_left = 792.0
+offset_right = 1144.0
+offset_bottom = 40.0
+theme = ExtResource("3_loh52")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 20
+text = "右クリックでタワー購入"
+horizontal_alignment = 2
+
+[node name="Health" type="Node2D" parent="UILayer"]
+position = Vector2(1024, 216)
+
+[node name="Heart01" type="Sprite2D" parent="UILayer/Health"]
+position = Vector2(-17, -4)
+texture = ExtResource("7_if1d0")
+
+[node name="Label" type="Label" parent="UILayer/Health"]
+offset_top = -16.0
+offset_right = 40.0
+offset_bottom = 33.0
+theme = SubResource("Theme_ikk4q")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+text = "x9"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 324)
+
+[connection signal="pressed" from="UILayer/ButtonNext" to="." method="_on_button_next_pressed"]

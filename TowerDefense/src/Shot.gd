@@ -39,7 +39,6 @@ func vanish() -> void:
 	
 ## 手動更新.
 func update_manual(delta:float) -> void:
-	delta *= Common.game_speed
 	position += _velocity * delta
 	
 	if Common.is_outside(self, 16):
