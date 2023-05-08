@@ -82,7 +82,7 @@ var _state = eState.STANDBY
 var _mode = eMode.FREE
 var _menu:MenuCommon
 var _spawn_mgr:EnemySpawnMgr
-var _buy_type = Tower.eType.NORMAL
+var _buy_type = Game.eTower.NORMAL
 var _start_next_wave = false
 var _help = eHelp.NONE
 var _selected_tower:Tower
@@ -95,7 +95,7 @@ var _timeout = 0.0
 # --------------------------------------------------
 ## 開始.
 func _ready() -> void:
-	DisplayServer.window_set_size(Vector2i(1152*2, 648*2))
+	#DisplayServer.window_set_size(Vector2i(1152*2, 648*2))
 	
 	Common.init()
 	
@@ -234,13 +234,16 @@ func _update_buy() -> void:
 		var result = _menu.get_result()
 		_menu.queue_free()
 		var tbl = {
-			MenuCommon.eResult.BUY_NORMAL: Tower.eType.NORMAL,
-			MenuCommon.eResult.BUY_LASER: Tower.eType.LASER,
-			MenuCommon.eResult.BUY_HORMING: Tower.eType.HORMING,
+			MenuCommon.eResult.BUY_NORMAL: Game.eTower.NORMAL,
+			MenuCommon.eResult.BUY_LASER: Game.eTower.LASER,
+			MenuCommon.eResult.BUY_HORMING: Game.eTower.HORMING,
 		}
 		if result in tbl:
 			# ビルドへ.
 			_buy_type = tbl[result]
+			var path = Game.tower_texture_path(_buy_type)
+			# カーソル用のタワーを読み込む.
+			_ui_cursor_tower.texture = load(path)
 			_mode = eMode.BUILD
 		else:
 			# キャンセルした.
@@ -275,7 +278,7 @@ func _update_build() -> void:
 	
 	# タワーの生存数.
 	var num = _tower_layer.get_child_count()
-	var cost = Game.tower_cost(num)
+	var cost = Game.tower_cost(num, _buy_type)
 	if Common.money < cost or Input.is_action_just_pressed("right-click"):
 		# お金足りない or キャンセル.
 		_cancel_build()
@@ -291,7 +294,7 @@ func _exec_build(cost:int) -> void:
 	# ビルドする.
 	var tower = TOWER_OBJ.instantiate()
 	_tower_layer.add_child(tower)
-	tower.setup(_ui_cursor.position)
+	tower.setup(_ui_cursor.position, _buy_type)
 	# お金を減らす.
 	Common.spend_money(cost)
 

@@ -10,15 +10,15 @@ func _ready() -> void:
 	for tower in Common.get_layer("tower").get_children():
 		var t:Tower = tower
 		match t.get_type():
-			Tower.eType.NORMAL:
+			Game.eTower.NORMAL:
 				cnt_normal += 1
-			Tower.eType.LASER:
+			Game.eTower.LASER:
 				cnt_laser += 1
-			Tower.eType.HORMING:
+			Game.eTower.HORMING:
 				cnt_horming += 1
-	var cost_normal = Game.tower_cost(cnt_normal)
-	var cost_laser = Game.tower_cost(cnt_laser)
-	var cost_horming = Game.tower_cost(cnt_horming)
+	var cost_normal = Game.tower_cost(cnt_normal, Game.eTower.NORMAL)
+	var cost_laser = Game.tower_cost(cnt_laser, Game.eTower.LASER)
+	var cost_horming = Game.tower_cost(cnt_horming, Game.eTower.HORMING)
 	
 	# 所持金.
 	var money = Common.money

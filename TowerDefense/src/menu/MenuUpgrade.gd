@@ -12,9 +12,10 @@ func _refresh_buttons() -> void:
 	var lv_power = _tower.power_lv
 	var lv_range = _tower.range_lv
 	var lv_firerate = _tower.firerate_lv
-	var cost_power = Game.tower_upgrade_power(lv_power)
-	var cost_range = Game.tower_upgrade_range(lv_range)
-	var cost_firerate = Game.tower_upgrade_firerate(lv_firerate)
+	var type = _tower.get_type()
+	var cost_power = Game.tower_upgrade_power(lv_power, type)
+	var cost_range = Game.tower_upgrade_range(lv_range, type)
+	var cost_firerate = Game.tower_upgrade_firerate(lv_firerate, type)
 	
 	# 所持金.
 	var money = Common.money

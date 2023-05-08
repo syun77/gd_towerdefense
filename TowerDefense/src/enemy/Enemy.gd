@@ -159,13 +159,19 @@ func _update_shake(delta:float) -> void:
 		# 終了.
 		_spr.offset = Vector2.ZERO
 		_mask.visible = false
+
+func is_shot(obj) -> bool:
+	if obj is Shot:
+		return true
 	
+	return false
+
 # --------------------------------------------------
 # signal function.
 # --------------------------------------------------
 ## 衝突.
 func _on_area_entered(area: Area2D) -> void:
-	if area is Shot:
+	if is_shot(area):
 		# ダメージ処理.
 		damage(area)
 		# 弾を消しておく.

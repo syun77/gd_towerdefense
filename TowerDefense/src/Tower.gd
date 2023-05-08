@@ -9,16 +9,12 @@ class_name Tower
 # --------------------------------------------------
 const SELECTED_TIMER = 0.5
 
-enum eType {
-	NORMAL,
-	LASER,
-	HORMING,
-}
-
 # --------------------------------------------------
 # preload.
 # --------------------------------------------------
-var SHOT_OBJ = preload("res://src/Shot.tscn")
+const SHOT_OBJ = preload("res://src/shot/Shot.tscn")
+const LASER_OBJ = preload("res://src/shot/Shot.tscn")
+const HORMING_OBJ = preload("res://src/shot/ShotHorming.tscn")
 
 # --------------------------------------------------
 # onready.
@@ -30,7 +26,7 @@ var SHOT_OBJ = preload("res://src/Shot.tscn")
 # --------------------------------------------------
 # private var.
 # --------------------------------------------------
-var _type = eType.NORMAL
+var _type = Game.eTower.NORMAL
 var _timer = 0.0
 var _selected_timer = 0.0
 
@@ -38,21 +34,22 @@ var _selected_timer = 0.0
 # public function.
 # --------------------------------------------------
 ## 種類.
-func get_type() -> eType:
+func get_type() -> Game.eTower:
 	return _type
 ## 攻撃力.
 func get_power() -> int:
-	return Game.tower_power(power_lv)
+	return Game.tower_power(power_lv, _type)
 ## 射程範囲.
 func get_range() -> float:
-	return Game.tower_range(range_lv)
+	return Game.tower_range(range_lv, _type)
 ## 発射間隔.
 func get_firerate() -> float:
-	return Game.tower_firerate(firerate_lv)
+	return Game.tower_firerate(firerate_lv, _type)
 
 ## セットアップ.
-func setup(pos:Vector2) -> void:
+func setup(pos:Vector2, type:Game.eTower) -> void:
 	position = pos
+	_set_type(type)
 
 ## 手動更新.
 func update_manual(delta:float) -> void:
@@ -92,6 +89,12 @@ func _process(_delta: float) -> void:
 	# 描画.
 	queue_redraw()
 
+## タワーの種別を設定
+func _set_type(type:Game.eTower) -> void:
+	_type = type
+	var path = Game.tower_texture_path(_type)
+	_spr.texture = load(path)
+
 ## 更新 > 回転.
 func _update_rotate(enemy:Enemy) -> void:
 	if enemy == null:
@@ -111,10 +114,21 @@ func _shot(enemy:Enemy) -> bool:
 	var d = enemy.global_position - position
 	var deg = rad_to_deg(atan2(-d.y, d.x))
 	
-	var shot = SHOT_OBJ.instantiate()
+	var tbl = {
+		Game.eTower.NORMAL: SHOT_OBJ,
+		Game.eTower.LASER: LASER_OBJ,
+		Game.eTower.HORMING: HORMING_OBJ,
+	}
+	var tbl2 = {
+		Game.eTower.NORMAL: 200.0,
+		Game.eTower.LASER: 0,
+		Game.eTower.HORMING: 150.0,
+	}
+	var speed = tbl2[_type]	
+	var shot = tbl[_type].instantiate()
 	Common.get_layer("shot").add_child(shot)
 	var power = get_power()
-	shot.setup(position, deg, 200, power)
+	shot.setup(position, deg, speed, power)
 	
 	return true
 

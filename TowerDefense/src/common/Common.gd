@@ -6,7 +6,7 @@ extends Node
 # --------------------------------------------------
 # const.
 # --------------------------------------------------
-const INIT_MONEY = 20
+const INIT_MONEY = 200
 const INIT_WAVE = 0 # 最初に+1するので0始まり.
 const INIT_HP = 9 # 拠点の初期HP.
 
@@ -73,7 +73,18 @@ func is_outside(node:Node2D, size:float) -> bool:
 	if pos.y > rect.size.y + size:
 		return true
 	return false
-	
+
+## 角度差を求める.
+func diff_angle(now:float, next:float) -> float:
+	# 角度差を求める.
+	var d = next - now
+	# 0.0〜360.0にする.
+	d -= floor(d / 360.0) * 360.0
+	# -180.0〜180.0の範囲にする.
+	if d > 180.0:
+		d -= 360.0
+	return d
+
 func add_money(v:int) -> void:
 	_money += v
 func spend_money(v:int) -> void:
