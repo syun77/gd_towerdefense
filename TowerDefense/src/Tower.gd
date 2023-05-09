@@ -13,7 +13,7 @@ const SELECTED_TIMER = 0.5
 # preload.
 # --------------------------------------------------
 const SHOT_OBJ = preload("res://src/shot/Shot.tscn")
-const LASER_OBJ = preload("res://src/shot/Shot.tscn")
+const LASER_OBJ = preload("res://src/shot/ShotLaser.tscn")
 const HORMING_OBJ = preload("res://src/shot/ShotHorming.tscn")
 
 # --------------------------------------------------
@@ -121,14 +121,14 @@ func _shot(enemy:Enemy) -> bool:
 	}
 	var tbl2 = {
 		Game.eTower.NORMAL: 200.0,
-		Game.eTower.LASER: 0,
+		Game.eTower.LASER: 1, # 動かないけど角度は必要なので "1".
 		Game.eTower.HORMING: 150.0,
 	}
 	var speed = tbl2[_type]	
 	var shot = tbl[_type].instantiate()
 	Common.get_layer("shot").add_child(shot)
 	var power = get_power()
-	shot.setup(position, deg, speed, power)
+	shot.setup(position, deg, speed, power, _type)
 	
 	return true
 

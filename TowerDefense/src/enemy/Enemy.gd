@@ -173,6 +173,9 @@ func is_shot(obj) -> bool:
 func _on_area_entered(area: Area2D) -> void:
 	if is_shot(area):
 		# ダメージ処理.
-		damage(area)
-		# 弾を消しておく.
-		area.vanish()
+		var shot = area as Shot
+		damage(shot)
+		
+		if shot.get_tower_type() != Game.eTower.LASER:
+			# レーザー以外は消しておく.
+			shot.vanish()
