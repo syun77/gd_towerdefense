@@ -28,7 +28,7 @@ func tower_range(lv:int, type:eTower) -> float:
 func tower_power(lv:int, type:eTower) -> int:
 	match type:
 		eTower.LASER:
-			return 10 + (lv * 2)
+			return (DAMAGE_BASE * 0.7) + (lv * 2)
 		eTower.HORMING:
 			return int(lv * DAMAGE_BASE * 0.5)
 		_: #eTower.NORMAL:

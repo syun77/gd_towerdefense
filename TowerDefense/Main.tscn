@@ -55,6 +55,7 @@ follow_viewport_enabled = true
 follow_viewport_enabled = true
 
 [node name="UILayer" type="CanvasLayer" parent="."]
+layer = 10
 
 [node name="PauseBG" type="Node2D" parent="UILayer"]
 

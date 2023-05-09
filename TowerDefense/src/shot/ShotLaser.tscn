@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://src/shot/ShotLaser.gd" id="1_6qxf8"]
 [ext_resource type="Texture2D" uid="uid://nsnokjpsiknv" path="res://assets/images/laser.png" id="1_sijuv"]
 
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_u7bve"]
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_xq1mr"]
 blend_mode = 1
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5wrmx"]
@@ -16,7 +16,8 @@ collision_mask = 4
 script = ExtResource("1_6qxf8")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-material = SubResource("CanvasItemMaterial_u7bve")
+modulate = Color(1, 1, 1, 0.501961)
+material = SubResource("CanvasItemMaterial_xq1mr")
 position = Vector2(8, 0)
 texture = ExtResource("1_sijuv")
 
