@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=3 uid="uid://bn8a8pr5xtdm0"]
 
 [ext_resource type="Script" path="res://src/enemy/Enemy.gd" id="1_aeab3"]
-[ext_resource type="Texture2D" uid="uid://dav6jaeidlbrn" path="res://assets/images/enemy_mask.png" id="2_bems1"]
-[ext_resource type="Texture2D" uid="uid://bawwywvpxecqs" path="res://assets/images/enemy.png" id="2_m11hc"]
+[ext_resource type="Texture2D" uid="uid://b0b66npwikdk3" path="res://assets/images/enemy_mask.png" id="2_bems1"]
+[ext_resource type="Texture2D" uid="uid://bh3ntvqgn51yh" path="res://assets/images/enemy.png" id="2_m11hc"]
 [ext_resource type="Theme" uid="uid://fyhjacjjpd4l" path="res://assets/health_bar.tres" id="3_l4pnt"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xu5rt"]
