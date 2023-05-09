@@ -11,6 +11,12 @@ const INIT_WAVE = 0 # 最初に+1するので0始まり.
 const INIT_HP = 9 # 拠点の初期HP.
 
 # --------------------------------------------------
+# preload.
+# --------------------------------------------------
+const PARTICLE_OBJ  = preload("res://src/effects/Particle.tscn")
+
+
+# --------------------------------------------------
 # private vars.
 # --------------------------------------------------
 var _money = INIT_MONEY
@@ -84,6 +90,33 @@ func diff_angle(now:float, next:float) -> float:
 	if d > 180.0:
 		d -= 360.0
 	return d
+	
+func add_particle() -> Particle:
+	var parent = get_layer("particle")
+	var p = PARTICLE_OBJ.instantiate()
+	parent.add_child(p)
+	return p
+
+
+func start_particle(pos:Vector2, time:float, color:Color, sc:float=1.0) -> void:
+	var deg = randf_range(0, 360)
+	for i in range(8):
+		var p = add_particle()
+		p.position = pos
+		var speed = randf_range(100, 1000)
+		var t = time + randf_range(-0.2, 0.2)
+		p.start(t, deg, speed, 0, 10, color, sc)
+		deg += randf_range(30, 50)
+
+func start_particle_ring(pos:Vector2, time:float, color:Color, sc:float=2.0) -> void:
+	var p = add_particle()
+	p.position = pos
+	p.start_ring(time, color, sc)
+
+func start_particle_enemy(pos:Vector2, time:float, color:Color) -> void:
+	start_particle(pos, time, color, 2.0)
+	for i in range(3):
+		start_particle_ring(pos, time + (i * 0.2), color, pow(2.0, (1 + i)))
 
 func add_money(v:int) -> void:
 	_money += v

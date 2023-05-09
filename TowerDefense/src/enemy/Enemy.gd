@@ -16,7 +16,8 @@ const TIMER_SHAKE = 0.5
 # --------------------------------------------------
 @onready var _spr = $AnimatedSprite2D
 @onready var _mask = $Mask
-@onready var _health_bar = $HeathBar
+@onready var _ui_health = $Health
+@onready var _health_bar = $Health/HealthBar
 
 # --------------------------------------------------
 # private var.
@@ -79,6 +80,13 @@ func damage(shot:Shot) -> void:
 		# お金ゲット!
 		var money = Game.enemy_money(Common.wave)
 		Common.add_money(money)
+		
+		# パーティクルを生成.
+		var pos = global_position
+		var time = 1.0
+		var color = Color.LIME
+		Common.start_particle_enemy(pos, time, color)
+		Common.start_particle_ring(pos, time, color)
 
 ## 消滅.
 func vanish() -> void:
@@ -116,7 +124,7 @@ func update_manual(delta:float) -> void:
 ## 開始.
 func _ready() -> void:
 	# 体力ゲージは消しておく.
-	_health_bar.visible = false
+	_ui_health.visible = false
 
 ## 回転処理.
 func _update_rotate():
@@ -131,7 +139,7 @@ func _update_rotate():
 func _update_health_bar() -> void:
 	var rate = get_hpratio()
 	if rate < 1.0:
-		_health_bar.visible = true
+		_ui_health.visible = true
 		_health_bar.value = 100 * rate
 		
 ## 揺れ処理.

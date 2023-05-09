@@ -54,6 +54,7 @@ const WAVE_START_OBJ = preload("res://src/WaveStart.tscn")
 @onready var _tower_layer = $TowerLayer
 @onready var _enemy_layer = $EnemyLayer
 @onready var _shot_layer = $ShotLayer
+@onready var _particle_layer = $ParticleLayer
 @onready var _ui_layer = $UILayer
 # UI.
 @onready var _ui_pause_bg = $UILayer/PauseBG
@@ -110,6 +111,7 @@ func _ready() -> void:
 		"tower": _tower_layer,
 		"enemy": _enemy_layer,
 		"shot": _shot_layer,
+		"particle": _particle_layer,
 		"ui": _ui_layer,
 	}
 	Common.setup(layers)
