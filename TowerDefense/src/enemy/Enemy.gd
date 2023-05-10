@@ -71,6 +71,9 @@ func get_hpratio() -> float:
 
 ## ダメージ処理.
 func damage(shot:Shot) -> void:
+	# ヒット演出.
+	_hit_effect(shot)
+	
 	_timer_shake = TIMER_SHAKE
 	var power = shot.get_power()
 	_hp -= power
@@ -173,6 +176,32 @@ func is_shot(obj) -> bool:
 		return true
 	
 	return false
+
+## ヒットエフェクト再生.
+func _hit_effect(shot:Shot) -> void:
+	if shot.get_tower_type() == Game.eTower.LASER:
+		return # TODO: レーダーは未実装.
+
+	var pos = shot.position
+	# 敵に少し近づける.
+	pos += (global_position - pos) * 0.8
+	
+	var deg = shot._deg
+	# 逆方向にする.
+	deg += 180
+	for i in range(8):
+		var deg2 = deg + randf_range(-45, 45)
+		var speed = randf_range(180, 300)
+		var p = Common.add_particle()
+		p.position = pos
+		# 生存時間.
+		var t = randf_range(0.8, 1.2)
+		# スケール値.
+		var sc = randf_range(1.0, 2.0)
+		# 加速度.
+		var ax = 0.0
+		var ay = 0.0
+		p.start(t, deg2, speed, ax, ay, Color.LIME, sc)
 
 # --------------------------------------------------
 # signal function.

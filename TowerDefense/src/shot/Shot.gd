@@ -36,6 +36,10 @@ func set_velocity(deg:float, speed:float) -> void:
 	
 	_deg = deg
 	_speed = speed
+
+## 角度を取得する.
+func get_degrees() -> float:
+	return _deg
 	
 ## 発射したタワーの種類.
 func get_tower_type() -> Game.eTower:
