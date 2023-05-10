@@ -89,7 +89,6 @@ func damage(shot:Shot) -> void:
 		var time = 1.0
 		var color = Color.LIME
 		Common.start_particle_enemy(pos, time, color)
-		Common.start_particle_ring(pos, time, color)
 
 ## 消滅.
 func vanish() -> void:

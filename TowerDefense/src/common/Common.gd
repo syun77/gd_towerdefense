@@ -6,7 +6,7 @@ extends Node
 # --------------------------------------------------
 # const.
 # --------------------------------------------------
-const INIT_MONEY = 200
+const INIT_MONEY = 20
 const INIT_WAVE = 0 # 最初に+1するので0始まり.
 const INIT_HP = 9 # 拠点の初期HP.
 
@@ -105,7 +105,9 @@ func start_particle(pos:Vector2, time:float, color:Color, sc:float=1.0) -> void:
 		p.position = pos
 		var speed = randf_range(100, 1000)
 		var t = time + randf_range(-0.2, 0.2)
-		p.start(t, deg, speed, 0, 10, color, sc)
+		var ax = 0.0
+		var ay = 3.0
+		p.start(t, deg, speed, ax, ay, color, sc)
 		deg += randf_range(30, 50)
 
 func start_particle_ring(pos:Vector2, time:float, color:Color, sc:float=2.0) -> void:

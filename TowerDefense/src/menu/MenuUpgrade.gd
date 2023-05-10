@@ -2,6 +2,9 @@ extends MenuCommon
 
 var _cnt = 0
 var _tower:Tower # アップグレード対象のタワー.
+var _cost_power:int = 0
+var _cost_range:int = 0
+var _cost_firerate:int = 0
 
 ## セットアップ.
 func setup(tower:Tower) -> void:
@@ -13,9 +16,9 @@ func _refresh_buttons() -> void:
 	var lv_range = _tower.range_lv
 	var lv_firerate = _tower.firerate_lv
 	var type = _tower.get_type()
-	var cost_power = Game.tower_upgrade_power(lv_power, type)
-	var cost_range = Game.tower_upgrade_range(lv_range, type)
-	var cost_firerate = Game.tower_upgrade_firerate(lv_firerate, type)
+	_cost_power = Game.tower_upgrade_power(lv_power, type)
+	_cost_range = Game.tower_upgrade_range(lv_range, type)
+	_cost_firerate = Game.tower_upgrade_firerate(lv_firerate, type)
 	
 	# 所持金.
 	var money = Common.money
@@ -25,14 +28,14 @@ func _refresh_buttons() -> void:
 		var btn:Button = button
 		match btn.name:
 			"ButtonBuyPower":
-				btn.text = "攻撃力 Lv%d > Lv%d($%d)"%[lv_power, lv_power+1, cost_power]
-				btn.disabled = money < cost_power
+				btn.text = "攻撃力 Lv%d > Lv%d($%d)"%[lv_power, lv_power+1, _cost_power]
+				btn.disabled = money < _cost_power
 			"ButtonBuyRange":
-				btn.text = "射程範囲 Lv%d > Lv%d ($%d)"%[lv_range, lv_range+1, cost_range]
-				btn.disabled = money < cost_range
+				btn.text = "射程範囲 Lv%d > Lv%d ($%d)"%[lv_range, lv_range+1, _cost_range]
+				btn.disabled = money < _cost_range
 			"ButtonBuyFirerate":
-				btn.text = "発射間隔 Lv%d > Lv%d ($%d)"%[lv_firerate, lv_firerate+1, cost_firerate]
-				btn.disabled = money < cost_firerate
+				btn.text = "発射間隔 Lv%d > Lv%d ($%d)"%[lv_firerate, lv_firerate+1, _cost_firerate]
+				btn.disabled = money < _cost_firerate
 	
 
 ## 開始.
@@ -53,12 +56,18 @@ func _on_button_cancel_pressed() -> void:
 
 func _on_button_buy_power_pressed() -> void:
 	_tower.power_lv += 1
+	# お金を減らす.
+	Common.spend_money(_cost_power)
 	_refresh_buttons()
 
 func _on_button_buy_range_pressed() -> void:
 	_tower.range_lv += 1
+	# お金を減らす.
+	Common.spend_money(_cost_range)
 	_refresh_buttons()
 
 func _on_button_buy_firerate_pressed() -> void:
 	_tower.firerate_lv += 1
+	# お金を減らす.
+	Common.spend_money(_cost_firerate)
 	_refresh_buttons()

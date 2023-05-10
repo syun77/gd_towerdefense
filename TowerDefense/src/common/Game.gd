@@ -3,7 +3,7 @@ extends Node
 # ==================================================
 # ゲームパラメータを定義するスクリプト.
 # ==================================================
-const DAMAGE_BASE = 1000
+const DAMAGE_BASE = 10
 
 enum eTower {
 	NORMAL, # 通常.
@@ -20,7 +20,7 @@ func tower_range(lv:int, type:eTower) -> float:
 		eTower.LASER:
 			return 48 + (8 * lv)
 		eTower.HORMING:
-			return 64 + (16 * lv)
+			return 64 + (20 * lv)
 		_: #eTower.NORMAL:
 			return 48 + (16 * lv)
 		
@@ -28,9 +28,9 @@ func tower_range(lv:int, type:eTower) -> float:
 func tower_power(lv:int, type:eTower) -> int:
 	match type:
 		eTower.LASER:
-			return (DAMAGE_BASE * 0.7) + (lv * 2)
+			return (DAMAGE_BASE * 1.5) * lv
 		eTower.HORMING:
-			return int(lv * DAMAGE_BASE * 0.5)
+			return int(lv * DAMAGE_BASE * 1.2)
 		_: #eTower.NORMAL:
 			return lv * DAMAGE_BASE
 ## 発射間隔 (= 2sec * 0.9 ^ (lv-1))
@@ -39,7 +39,7 @@ func tower_firerate(lv:int, type:eTower) -> float:
 		eTower.LASER:
 			return 3.0 * pow(0.9, (lv-1))
 		eTower.HORMING:
-			return 1.5 * pow(0.9, (lv-1))
+			return 2.5 * pow(0.9, (lv-1))
 		_: #eTower.NORMAL:
 			return 2.0 * pow(0.9, (lv-1))
 	
@@ -47,11 +47,11 @@ func tower_firerate(lv:int, type:eTower) -> float:
 func tower_cost(num:int, type:eTower) -> int:
 	match type:
 		eTower.LASER:
-			var base = 25
+			var base = 14
 			var cost = base * pow(1.3, num)
 			return cost
 		eTower.HORMING:
-			var base = 15
+			var base = 10
 			var cost = base * pow(1.3, num)
 			return cost
 		_: #eTower.NORMAL:
@@ -63,22 +63,22 @@ func tower_cost(num:int, type:eTower) -> int:
 func tower_upgrade_range(lv:int, type:eTower) -> int:
 	match type:
 		eTower.LASER:
-			var cost = 20 * pow(1.5, (lv-1))
+			var cost = 8 * pow(1.5, (lv-1))
 			return int(cost)
 		eTower.HORMING:
 			var cost = 8 * pow(1.5, (lv-1))
 			return int(cost)
 		_: #eTower.NORMAL:
-			var cost = 10 * pow(1.5, (lv-1))
+			var cost = 8 * pow(1.5, (lv-1))
 			return int(cost)
 ## 攻撃威力のアップグレード.
 func tower_upgrade_power(lv:int, type:eTower) -> int:
 	match type:
 		eTower.LASER:
-			var cost = 15 * pow(1.5, (lv-1))
+			var cost = 20 * pow(1.5, (lv-1))
 			return int(cost)
 		eTower.HORMING:
-			var cost = 40 * pow(1.5, (lv-1))
+			var cost = 20 * pow(1.5, (lv-1))
 			return int(cost)
 		_: #eTower.NORMAL:
 			var cost = 20 * pow(1.5, (lv-1))
@@ -87,10 +87,10 @@ func tower_upgrade_power(lv:int, type:eTower) -> int:
 func tower_upgrade_firerate(lv:int, type:eTower) -> int:
 	match type:
 		eTower.LASER:
-			var cost = 40 * pow(1.5, (lv-1))
+			var cost = 15 * pow(1.5, (lv-1))
 			return int(cost)
 		eTower.HORMING:
-			var cost = 20 * pow(1.5, (lv-1))
+			var cost = 15 * pow(1.5, (lv-1))
 			return int(cost)
 		_: #eTower.NORMAL:
 			var cost = 15 * pow(1.5, (lv-1))
@@ -110,8 +110,8 @@ func tower_texture_path(type:eTower) -> String:
 # --------------------------------------------------
 ## HP (base + (Wave数 / 3))
 func enemy_hp(wave:int) -> int:
-	var base = 2.0
-	var hp = base + floor(wave / 3.0)
+	var base = 1.0
+	var hp = base + floor(wave / 3.0) # 端数切捨て.
 	return int(hp * DAMAGE_BASE)
 
 ## 所持金.

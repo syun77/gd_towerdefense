@@ -123,7 +123,7 @@ func _ready() -> void:
 	_spawn_mgr = EnemySpawnMgr.new(_path2d)
 	
 	_change_help(eHelp.BUY)
-	_timeout = TIME_OUT
+	_timeout = TIME_OUT * 1.5
 
 ## 更新.
 func _physics_process(delta: float) -> void:
@@ -160,9 +160,9 @@ func _physics_process(delta: float) -> void:
 
 ## 更新 > 待機中.
 func _update_standby(delta:float):
-	if Common.wave > 0:
+	if _mode == eMode.FREE:
+		# 自由操作のときのみ時間経過.
 		_timeout -= delta
-	
 	if _start_next_wave or _timeout <= 0.0:
 		_ui_next_wave.visible = false
 		_start_next_wave = false
@@ -279,7 +279,12 @@ func _update_build() -> void:
 		_ui_cursor_tower.visible = true
 	
 	# タワーの生存数.
-	var num = _tower_layer.get_child_count()
+	var num = 0
+	for tower in Common.get_layer("tower").get_children():
+		var t:Tower = tower
+		if t.get_type() == _buy_type:
+			num += 1 # 一致する種別のみ.
+	
 	var cost = Game.tower_cost(num, _buy_type)
 	if Common.money < cost or Input.is_action_just_pressed("right-click"):
 		# お金足りない or キャンセル.

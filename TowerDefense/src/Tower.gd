@@ -82,9 +82,9 @@ func _ready() -> void:
 ## 更新.
 func _process(_delta: float) -> void:
 	# ヘルプの更新.
-	_helo_label.text = "POWER: LV%d"%power_lv
-	_helo_label.text += "\nRANGE: LV%d"%range_lv
-	_helo_label.text += "\nFIRERATE: LV%d"%firerate_lv
+	_helo_label.text = "POWER: LV%d (dmg:%d)"%[power_lv, get_power()]
+	_helo_label.text += "\nRANGE: LV%d (%3.0f)"%[range_lv, get_range()/8.0]
+	_helo_label.text += "\nFIRERATE: LV%d (%3.1fsec)"%[firerate_lv, get_firerate()]
 		
 	# 描画.
 	queue_redraw()
@@ -122,7 +122,7 @@ func _shot(enemy:Enemy) -> bool:
 	var tbl2 = {
 		Game.eTower.NORMAL: 200.0,
 		Game.eTower.LASER: 1, # 動かないけど角度は必要なので "1".
-		Game.eTower.HORMING: 150.0,
+		Game.eTower.HORMING: 200.0,
 	}
 	var speed = tbl2[_type]	
 	var shot = tbl[_type].instantiate()
