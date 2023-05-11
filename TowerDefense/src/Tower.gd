@@ -7,6 +7,7 @@ class_name Tower
 # --------------------------------------------------
 # const.
 # --------------------------------------------------
+# 選択したときのポップアップ出現時間.
 const SELECTED_TIMER = 0.5
 
 # --------------------------------------------------
@@ -26,9 +27,9 @@ const HORMING_OBJ = preload("res://src/shot/ShotHorming.tscn")
 # --------------------------------------------------
 # private var.
 # --------------------------------------------------
-var _type = Game.eTower.NORMAL
+var _type = Game.eTower.NORMAL # タワーの種類.
 var _timer = 0.0
-var _selected_timer = 0.0
+var _selected_timer = 0.0 # ポップアップタイマー.
 
 # --------------------------------------------------
 # public function.
@@ -76,7 +77,7 @@ func update_manual(delta:float) -> void:
 # --------------------------------------------------
 ## 開始.
 func _ready() -> void:
-	_spr.rotation = PI
+	_spr.rotation = PI # 左向き.
 	_help.visible = false
 
 ## 更新.
@@ -136,15 +137,18 @@ func _shot(enemy:Enemy) -> bool:
 func _draw() -> void:
 	_help.visible = false
 	if selected:
+		# ヘルプポップアップの表示.
 		_help.visible = true
-		# 射程範囲の描画.
 		var rate = 1.0 - Ease.expo_in(_selected_timer / SELECTED_TIMER)
 		_help.scale = Vector2.ONE * rate
+		# 射程範囲の描画.
 		var range = get_range() * rate
 		var color = Color.AQUA
 		color.a = 0.3
+		# 塗りつぶし円の描画.
 		draw_circle(Vector2.ZERO, range, color)
 		var color2 = Color.WHITE
+		# 円をいくつか描画.
 		for ofs in [0, 0.1, 0.2]:
 			var rate2 = fmod((_timer + ofs) * 0.5, 1.0)
 			color2.a = 1.0 - rate2
@@ -157,6 +161,7 @@ func _draw() -> void:
 var selected = false:
 	set(v):
 		if selected == false and v:
+			# 選択開始.
 			_selected_timer = SELECTED_TIMER
 		selected = v
 	get:
