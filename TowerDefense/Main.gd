@@ -84,6 +84,7 @@ var _mode = eMode.FREE
 var _menu:MenuCommon
 var _spawn_mgr:EnemySpawnMgr
 var _buy_type = Game.eTower.NORMAL
+var _buy_cost = 0
 var _start_next_wave = false
 var _help = eHelp.NONE
 var _selected_tower:Tower
@@ -285,8 +286,8 @@ func _update_build() -> void:
 		if t.get_type() == _buy_type:
 			num += 1 # 一致する種別のみ.
 	
-	var cost = Game.tower_cost(num, _buy_type)
-	if Common.money < cost or Input.is_action_just_pressed("right-click"):
+	_buy_cost = Game.tower_cost(num, _buy_type)
+	if Common.money < _buy_cost or Input.is_action_just_pressed("right-click"):
 		# お金足りない or キャンセル.
 		_cancel_build()
 	elif Input.is_action_just_pressed("click"):
@@ -294,7 +295,7 @@ func _update_build() -> void:
 			print("ここには建設できない")
 		else:
 			# ビルド実行.
-			_exec_build(cost)
+			_exec_build(_buy_cost)
 
 ## ビルド実行.
 func _exec_build(cost:int) -> void:
@@ -408,7 +409,9 @@ func _update_ui(delta:float) -> void:
 	_update_help(delta)
 	
 	# 所持金の更新.
-	_ui_money.text = "所持金: $%d"%Common.money
+	_ui_money.text = "所持金:$%d"%Common.money
+	if _mode == eMode.BUILD:
+		_ui_money.text += " (-$%d)"%_buy_cost
 	
 	# ウェーブ数の更新.
 	_ui_wave.text = "Wave:%d"%Common.wave

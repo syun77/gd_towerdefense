@@ -82,9 +82,9 @@ func _ready() -> void:
 ## 更新.
 func _process(_delta: float) -> void:
 	# ヘルプの更新.
-	_helo_label.text = "POWER: LV%d (dmg:%d)"%[power_lv, get_power()]
-	_helo_label.text += "\nRANGE: LV%d (%3.0f)"%[range_lv, get_range()/8.0]
-	_helo_label.text += "\nFIRERATE: LV%d (%3.1fsec)"%[firerate_lv, get_firerate()]
+	_helo_label.text = "POWER: Lv%d (dmg:%d)"%[power_lv, get_power()]
+	_helo_label.text += "\nRANGE: Lv%d (%1.0f)"%[range_lv, get_range()/8.0]
+	_helo_label.text += "\nFIRERATE: Lv%d (%1.1fsec)"%[firerate_lv, get_firerate()]
 		
 	# 描画.
 	queue_redraw()
