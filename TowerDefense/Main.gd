@@ -124,7 +124,7 @@ func _ready() -> void:
 	_spawn_mgr = EnemySpawnMgr.new(_path2d)
 	
 	_change_help(eHelp.BUY)
-	_timeout = TIME_OUT * 1.5
+	_timeout = TIME_OUT
 
 ## 更新.
 func _physics_process(delta: float) -> void:
@@ -161,8 +161,8 @@ func _physics_process(delta: float) -> void:
 
 ## 更新 > 待機中.
 func _update_standby(delta:float):
-	if _mode == eMode.FREE:
-		# 自由操作のときのみ時間経過.
+	if _is_count_down():
+		# 自由操作 and 時間経過.
 		_timeout -= delta
 	if _start_next_wave or _timeout <= 0.0:
 		_ui_next_wave.visible = false
@@ -176,6 +176,15 @@ func _update_standby(delta:float):
 		_ui_wave.visible = true
 		_ui_enemy.visible = true
 		_state = eState.MAIN
+
+func _is_count_down() -> bool:
+	if _mode != eMode.FREE:
+		return false # FREE操作でなければタイムアウトしない.
+	if Common.wave < 1: # 最初のWave開始前.
+		if _tower_layer.get_child_count() == 0:
+			return false # 1つも建設していなければタイムアウトしない.
+	
+	return true
 
 ## 更新 > メイン.
 func _update_main(delta:float):

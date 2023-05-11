@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://c6fdhp7glsvv5"]
 
 [ext_resource type="Script" path="res://src/Tower.gd" id="1_1o3bg"]
-[ext_resource type="Texture2D" uid="uid://bbs65cptlf2m3" path="res://assets/images/tower.png" id="2_r4yjp"]
-[ext_resource type="FontFile" uid="uid://cfqnmqk0erl5e" path="res://assets/fonts/Xolonium-Regular.ttf" id="3_u50jx"]
+[ext_resource type="Texture2D" uid="uid://bsaeef4m830po" path="res://assets/images/tower.png" id="2_r4yjp"]
+[ext_resource type="FontFile" uid="uid://bx6dkxtob0gbd" path="res://assets/fonts/Xolonium-Regular.ttf" id="3_u50jx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fjunf"]
 size = Vector2(64, 64)

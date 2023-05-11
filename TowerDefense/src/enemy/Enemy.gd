@@ -80,12 +80,14 @@ func damage(shot:Shot) -> void:
 	if _hp <= 0:
 		# 消滅.
 		vanish()
+		var pos = global_position
+		
 		# お金ゲット!
 		var money = Game.enemy_money(Common.wave)
 		Common.add_money(money)
+		Common.add_ascii(pos, "+$%d"%money, 2.0)
 		
 		# パーティクルを生成.
-		var pos = global_position
 		var time = 1.0
 		var color = Color.LIME
 		Common.start_particle_enemy(pos, time, color)

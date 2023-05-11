@@ -1,15 +1,26 @@
 extends MenuCommon
-
+# ==================================================
+# アップグレードメニュー.
+# ==================================================
+# --------------------------------------------------
+# vars.
+# --------------------------------------------------
 var _cnt = 0
 var _tower:Tower # アップグレード対象のタワー.
 var _cost_power:int = 0
 var _cost_range:int = 0
 var _cost_firerate:int = 0
 
+# --------------------------------------------------
+# public functions.
+# --------------------------------------------------
 ## セットアップ.
 func setup(tower:Tower) -> void:
 	_tower = tower
 
+# --------------------------------------------------
+# private functions.
+# --------------------------------------------------
 ## ボタンの更新.
 func _refresh_buttons() -> void:
 	var lv_power = _tower.power_lv
@@ -53,6 +64,9 @@ func _process(delta: float) -> void:
 		if Input.is_action_just_pressed("right-click"):
 			_result = eResult.CANCEL
 
+# --------------------------------------------------
+# signal functions.
+# --------------------------------------------------
 ## キャンセルボタン.
 func _on_button_cancel_pressed() -> void:
 	_result = eResult.CANCEL

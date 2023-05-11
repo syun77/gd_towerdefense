@@ -14,6 +14,7 @@ const INIT_HP = 9 # 拠点の初期HP.
 # preload.
 # --------------------------------------------------
 const PARTICLE_OBJ  = preload("res://src/effects/Particle.tscn")
+const ASCII_OBJ = preload("res://src/effects/ParticleAscii.tscn")
 
 
 # --------------------------------------------------
@@ -119,6 +120,11 @@ func start_particle_enemy(pos:Vector2, time:float, color:Color) -> void:
 	start_particle(pos, time, color, 2.0)
 	for i in range(3):
 		start_particle_ring(pos, time + (i * 0.2), color, pow(2.0, (1 + i)))
+		
+func add_ascii(pos:Vector2, s:String, sc:float=1.0) -> void:
+	var p = ASCII_OBJ.instantiate()
+	get_layer("particle").add_child(p)
+	p.init(pos, s, sc)
 
 func add_money(v:int) -> void:
 	_money += v

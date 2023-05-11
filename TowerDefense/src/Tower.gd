@@ -15,8 +15,8 @@ const MAX_LV_COLOR = 5 # 最大レベル.
 const LV_COLORS = {
 #	1: Color.PALE_TURQUOISE,
 	1: Color.WHITE,
-	2: Color.PALE_GREEN,
-	3: Color.PALE_GOLDENROD,
+	2: Color.LIME_GREEN,
+	3: Color.ROSY_BROWN,
 	4: Color.ORANGE,
 	MAX_LV_COLOR: Color.ORANGE_RED,
 }
@@ -33,7 +33,7 @@ const HORMING_OBJ = preload("res://src/shot/ShotHorming.tscn")
 # --------------------------------------------------
 @onready var _spr = $Sprite
 @onready var _help = $Help
-@onready var _helo_label = $Help/Label
+@onready var _help_label = $Help/Label
 
 # --------------------------------------------------
 # private var.
@@ -62,6 +62,15 @@ func get_firerate() -> float:
 func setup(pos:Vector2, type:Game.eTower) -> void:
 	position = pos
 	_set_type(type)
+	
+	# 画面外に出ないように調整.
+	var dx = 824 - position.x
+	if dx < 0:
+		_help.position.x += dx
+	var dy = 128 - position.y
+	if dy > 0:
+		_help.position.y += dy
+		
 
 ## 手動更新.
 func update_manual(delta:float) -> void:
@@ -92,9 +101,9 @@ func _ready() -> void:
 ## 更新.
 func _process(_delta: float) -> void:
 	# ヘルプの更新.
-	_helo_label.text = "POWER: Lv%d (dmg:%d)"%[power_lv, get_power()]
-	_helo_label.text += "\nRANGE: Lv%d (%1.0f)"%[range_lv, get_range()/8.0]
-	_helo_label.text += "\nFIRERATE: Lv%d (%1.1fsec)"%[firerate_lv, get_firerate()]
+	_help_label.text = "POWER: Lv%d (dmg:%d)"%[power_lv, get_power()]
+	_help_label.text += "\nRANGE: Lv%d (%1.0f)"%[range_lv, get_range()/8.0]
+	_help_label.text += "\nFIRERATE: Lv%d (%1.1fsec)"%[firerate_lv, get_firerate()]
 	
 	# 色を更新.
 	_update_color()
