@@ -10,6 +10,17 @@ class_name Tower
 # 選択したときのポップアップ出現時間.
 const SELECTED_TIMER = 0.5
 
+# レベルに対応する色.
+const MAX_LV_COLOR = 5 # 最大レベル.
+const LV_COLORS = {
+#	1: Color.PALE_TURQUOISE,
+	1: Color.WHITE,
+	2: Color.PALE_GREEN,
+	3: Color.PALE_GOLDENROD,
+	4: Color.ORANGE,
+	MAX_LV_COLOR: Color.ORANGE_RED,
+}
+
 # --------------------------------------------------
 # preload.
 # --------------------------------------------------
@@ -70,8 +81,6 @@ func update_manual(delta:float) -> void:
 			# 発射できた.
 			_timer = 0
 
-	
-
 # --------------------------------------------------
 # private function.
 # --------------------------------------------------
@@ -86,9 +95,29 @@ func _process(_delta: float) -> void:
 	_helo_label.text = "POWER: Lv%d (dmg:%d)"%[power_lv, get_power()]
 	_helo_label.text += "\nRANGE: Lv%d (%1.0f)"%[range_lv, get_range()/8.0]
 	_helo_label.text += "\nFIRERATE: Lv%d (%1.1fsec)"%[firerate_lv, get_firerate()]
-		
+	
+	# 色を更新.
+	_update_color()
+	
 	# 描画.
 	queue_redraw()
+	
+## 色を更新.
+func _update_color() -> void:
+	_spr.modulate = _get_tower_color()
+	
+func _get_tower_color() -> Color:
+	# Lvの平均を求める.
+	var avg = (power_lv + range_lv + firerate_lv) / 3.0
+	var a:int = floor(avg) # 端数切捨て.
+	var d = avg - a
+	if a >= MAX_LV_COLOR:
+		# 色が変化する最大レベル.
+		return LV_COLORS[MAX_LV_COLOR]
+	var b:int = ceil(avg) # 端数切り上げ.
+	var color1:Color = LV_COLORS[a]
+	var color2:Color = LV_COLORS[b]
+	return color1.lerp(color2, d)
 
 ## タワーの種別を設定
 func _set_type(type:Game.eTower) -> void:
