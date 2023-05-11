@@ -43,7 +43,10 @@ func _ready() -> void:
 	_refresh_buttons()
 
 ## 更新.
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
+	# 暗転背景の更新.
+	_update_bg($ColorRect, delta)
+	
 	_cnt += 1
 	
 	if _cnt > 1: # 初回は処理しない.

@@ -7,6 +7,9 @@ class_name MenuCommon
 # -----------------------------------------
 # const.
 # -----------------------------------------
+const TIMER_FADE = 0.5
+const FADE_ALPHA = 0.5
+
 enum eResult {
 	NONE,
 	CANCEL,
@@ -26,9 +29,10 @@ enum eResult {
 # private var.
 # -----------------------------------------
 var _result = eResult.NONE
+var _fade_timer = 0.0
 
 # -----------------------------------------
-# private function.
+# public function.
 # -----------------------------------------
 ## 閉じたかどうか.
 func closed() -> bool:
@@ -37,3 +41,13 @@ func closed() -> bool:
 ## 結果を取得する.
 func get_result() -> eResult:
 	return _result
+
+# -----------------------------------------
+# private function.
+# -----------------------------------------
+## 背景の更新.
+func _update_bg(color_rect:ColorRect, delta:float) -> void:
+	_fade_timer = min(TIMER_FADE, _fade_timer + delta)
+	var rate = _fade_timer / TIMER_FADE
+	color_rect.modulate.a = FADE_ALPHA * rate
+	color_rect.visible = true
