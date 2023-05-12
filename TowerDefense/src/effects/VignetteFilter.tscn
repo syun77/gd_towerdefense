@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://x63fex8fapmt"]
+
+[ext_resource type="Shader" path="res://src/effects/VignetteFilter.gdshader" id="1_vk0ol"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vqtrh"]
+shader = ExtResource("1_vk0ol")
+shader_parameter/vignette_intensity = 0.4
+shader_parameter/vignette_opacity = 0.5
+shader_parameter/vignette_rgb = Color(1, 0, 0, 1)
+shader_parameter/vinnette_size = 15.0
+
+[node name="VignetteFilter" type="ColorRect"]
+material = SubResource("ShaderMaterial_vqtrh")
+offset_right = 1152.0
+offset_bottom = 648.0

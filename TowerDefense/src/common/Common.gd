@@ -148,6 +148,8 @@ func damage_hp(v:int) -> void:
 	health -= v
 func is_dead() -> bool:
 	return health <= 0
+func healt_ratio() -> float:
+	return 1.0 * health / INIT_HP
 
 # --------------------------------------------------
 # properties.

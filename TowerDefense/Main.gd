@@ -11,6 +11,7 @@ const FADE_TIMER = 0.2
 const HELP_OFS_Y = -48.0
 const TIMER_SHAKE = 0.5
 const TIME_OUT = 5.0
+const TIMER_VIGNETTE = 0.5
 
 ## 状態.
 enum eState {
@@ -57,6 +58,7 @@ const WAVE_START_OBJ = preload("res://src/WaveStart.tscn")
 @onready var _particle_layer = $ParticleLayer
 @onready var _ui_layer = $UILayer
 # UI.
+@onready var _ui_vignette = $UILayer/VignetteFilter
 @onready var _ui_pause_bg = $UILayer/PauseBG
 @onready var _ui_next_wave = $UILayer/ButtonNext
 @onready var _ui_cursor = $UILayer/Cursor
@@ -92,6 +94,7 @@ var _selected_tower:Tower
 var _timer_shake = 0.0
 var _cnt = 0
 var _timeout = 0.0
+var _timer_vignette = 0.0
 
 # --------------------------------------------------
 # private function.
@@ -102,6 +105,7 @@ func _ready() -> void:
 	
 	Common.init()
 	
+	_set_vignette(0.0)
 	_ui_pause_bg.modulate.a = 0.0
 	_ui_wave.visible = false
 	_ui_wave_max.visible = false
@@ -157,6 +161,9 @@ func _physics_process(delta: float) -> void:
 
 	# カメラの更新.
 	_update_camera(delta)
+	
+	# Vignetteの更新.
+	_update_vignette(delta)
 
 	# UIの更新.
 	_update_ui(delta)
@@ -396,6 +403,7 @@ func _update_camera(delta:float) -> void:
 		Common.is_damage = false
 		# 揺れ開始.
 		_timer_shake = TIMER_SHAKE
+		_timer_vignette = TIMER_VIGNETTE
 	
 	_camera.offset = Vector2.ZERO
 	if _timer_shake <= 0.0:
@@ -406,7 +414,22 @@ func _update_camera(delta:float) -> void:
 	if _cnt%4 < 2:
 		x *= -1
 	_camera.offset.x = x
-	_camera.offset.y = 4 * rate * randf_range(-1, 1)
+	_camera.offset.y = 4 * rate * randf_range(-1, 1)	
+
+func _update_vignette(delta:float) -> void:
+	if _timer_vignette <= 0.0:
+		_set_vignette(0)
+		return
+	_timer_vignette -= delta
+	var rate = _timer_vignette / TIMER_VIGNETTE
+	var intensity = 0.4 * (1.0 - Common.healt_ratio())
+	_set_vignette(rate, intensity)
+
+## Vignetteの透過値を設定する.
+func _set_vignette(alpha:float, intensity:float=0.4) -> void:
+	var mat:ShaderMaterial = _ui_vignette.material
+	mat.set_shader_parameter("vignette_opacity", alpha)
+	mat.set_shader_parameter("vignette_intensity", intensity)
 
 ## 更新 > UI.
 func _update_ui(delta:float) -> void:
