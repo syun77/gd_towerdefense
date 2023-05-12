@@ -64,6 +64,7 @@ const WAVE_START_OBJ = preload("res://src/WaveStart.tscn")
 @onready var _ui_cursor_tower = $UILayer/Cursor/Tower
 @onready var _ui_money = $UILayer/LabelMoney
 @onready var _ui_wave = $UILayer/LabelWave
+@onready var _ui_wave_max = $UILayer/LabelWaveBest
 @onready var _ui_enemy = $UILayer/LabelEnemy
 @onready var _ui_game_speed  = $UILayer/HSliderGameSpeed
 @onready var _ui_game_speed_label = $UILayer/HSliderGameSpeed/Label
@@ -103,6 +104,7 @@ func _ready() -> void:
 	
 	_ui_pause_bg.modulate.a = 0.0
 	_ui_wave.visible = false
+	_ui_wave_max.visible = false
 	_ui_enemy.visible = false
 	_ui_next_wave.visible = true
 	_ui_caption.visible = false
@@ -424,6 +426,11 @@ func _update_ui(delta:float) -> void:
 	
 	# ウェーブ数の更新.
 	_ui_wave.text = "Wave:%d"%Common.wave
+	
+	# 最大到達ウェーブ数の更新.
+	if Common.wave_best > Common.INIT_WAVE:
+		_ui_wave_max.visible = true
+		_ui_wave_max.text = "最大Wave:%d"%Common.wave_best
 	
 	# 敵出現数.
 	_ui_enemy.text = "敵:(%d/%d)"%[_spawn_mgr.get_spawn_number(), _spawn_mgr.get_spawn_number_max()]

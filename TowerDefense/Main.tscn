@@ -2,12 +2,12 @@
 
 [ext_resource type="TileSet" uid="uid://5ltlgl2jn6x0" path="res://assets/tiles/tile_set.tres" id="1_ql1mj"]
 [ext_resource type="Script" path="res://Main.gd" id="1_xguji"]
-[ext_resource type="Texture2D" uid="uid://bcb46fbf6r80c" path="res://assets/images/cursor.png" id="3_i21nb"]
+[ext_resource type="Texture2D" uid="uid://wnmxh8h5445g" path="res://assets/images/cursor.png" id="3_i21nb"]
 [ext_resource type="Theme" uid="uid://dcvufg8c2ac10" path="res://assets/default_theme.tres" id="3_loh52"]
-[ext_resource type="Texture2D" uid="uid://kgd8ftrs63l0" path="res://assets/images/cross.png" id="4_4s62w"]
-[ext_resource type="Texture2D" uid="uid://bsaeef4m830po" path="res://assets/images/tower.png" id="6_co0mt"]
-[ext_resource type="Texture2D" uid="uid://dri454jjcb865" path="res://assets/images/heart.png" id="7_if1d0"]
-[ext_resource type="FontFile" uid="uid://bx6dkxtob0gbd" path="res://assets/fonts/Xolonium-Regular.ttf" id="7_v3qne"]
+[ext_resource type="Texture2D" uid="uid://dpbi3wdyoie5y" path="res://assets/images/cross.png" id="4_4s62w"]
+[ext_resource type="Texture2D" uid="uid://bbs65cptlf2m3" path="res://assets/images/tower.png" id="6_co0mt"]
+[ext_resource type="Texture2D" uid="uid://c2raxyd0n1gkb" path="res://assets/images/heart.png" id="7_if1d0"]
+[ext_resource type="FontFile" uid="uid://cfqnmqk0erl5e" path="res://assets/fonts/Xolonium-Regular.ttf" id="7_v3qne"]
 
 [sub_resource type="Curve2D" id="Curve2D_qkjnf"]
 _data = {
@@ -113,6 +113,14 @@ offset_bottom = 121.0
 theme = ExtResource("3_loh52")
 text = "ウェーブ"
 
+[node name="LabelWaveBest" type="Label" parent="UILayer"]
+offset_left = 24.0
+offset_top = 576.0
+offset_right = 248.0
+offset_bottom = 625.0
+theme = ExtResource("3_loh52")
+text = "ウェーブ"
+
 [node name="LabelEnemy" type="Label" parent="UILayer"]
 offset_left = 32.0
 offset_top = 128.0
@@ -144,9 +152,9 @@ visible = false
 
 [node name="CheckAppearEnemy" type="CheckButton" parent="UILayer/DbgLayer"]
 offset_left = 8.0
-offset_top = 552.0
+offset_top = 512.0
 offset_right = 184.0
-offset_bottom = 606.0
+offset_bottom = 566.0
 theme = ExtResource("3_loh52")
 button_pressed = true
 text = "敵の出現"

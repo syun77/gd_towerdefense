@@ -23,6 +23,7 @@ const ASCII_OBJ = preload("res://src/effects/ParticleAscii.tscn")
 var _money = INIT_MONEY
 var _layers = {}
 var _wave = INIT_WAVE # Wave数.
+var _wave_best = INIT_WAVE # 最大到達Wave数.
 
 # --------------------------------------------------
 # public functions.
@@ -135,6 +136,9 @@ func reset_money() -> void:
 
 func next_wave() -> void:
 	_wave += 1
+	if _wave > _wave_best:
+		# 最大到達Wave数を更新.
+		_wave_best = _wave
 func reset_wave() -> void:
 	_wave = INIT_WAVE
 	
@@ -161,6 +165,13 @@ var wave:
 		assert("can't call")
 	get:
 		return _wave
+
+## 最大到達Wave数.
+var wave_best:
+	set(v):
+		assert("can't call")
+	get:
+		return _wave_best
 
 ## ゲーム速度.
 var game_speed = 1.0:
