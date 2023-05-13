@@ -9,13 +9,13 @@ extends Node
 const INIT_MONEY = 20
 const INIT_WAVE = 0 # 最初に+1するので0始まり.
 const INIT_HP = 9 # 拠点の初期HP.
+const MAX_SOUND = 8 # SEの最大数.
 
 # --------------------------------------------------
 # preload.
 # --------------------------------------------------
 const PARTICLE_OBJ  = preload("res://src/effects/Particle.tscn")
 const ASCII_OBJ = preload("res://src/effects/ParticleAscii.tscn")
-
 
 # --------------------------------------------------
 # private vars.
@@ -24,6 +24,7 @@ var _money = INIT_MONEY
 var _layers = {}
 var _wave = INIT_WAVE # Wave数.
 var _wave_best = INIT_WAVE # 最大到達Wave数.
+var _snds:Array[AudioStreamPlayer]  = [] # AudioStreamPlayer
 
 # --------------------------------------------------
 # public functions.
@@ -32,9 +33,16 @@ func init() -> void:
 	reset_money()
 	reset_hp()
 	reset_wave()
+	_snds.clear()
 
-func setup(layers:Dictionary) -> void:
+func setup(layers:Dictionary, root:Node2D) -> void:
 	_layers = layers
+	
+	for i in range(MAX_SOUND):
+		var snd = AudioStreamPlayer.new()
+		snd.volume_db = -4
+		root.add_child(snd)
+		_snds.append(snd)	
 
 func get_layer(name:String) -> CanvasLayer:
 	return _layers[name]
@@ -150,6 +158,36 @@ func is_dead() -> bool:
 	return health <= 0
 func healt_ratio() -> float:
 	return 1.0 * health / INIT_HP
+
+## BGM(.mp3)のパスを取得する.
+func get_bgm_path(is_intro:bool=false) -> String:
+	var cnt_wave = wave
+	var each_wave = 3 # 3waveごとに切り替わる.
+	var max_bgm = 5 # BGMのIDの最大は5
+	if is_intro:
+		# イントロループ.
+		var id = ((wave/each_wave)%max_bgm) + 1
+		var path = "res://assets/sound/bgm/bgm%02d_intro_bpm132.mp3"%id
+		return path
+	else:
+		var id = ((wave/each_wave)%max_bgm) + 1
+		var path = "res://assets/sound/bgm/bgm%02d_bpm132.mp3"%id
+		return path
+
+## SE(.wav)を再生する.
+func play_se(name:String, id:int=0) -> void:
+	if id < 0 or MAX_SOUND <= id:
+		push_error("不正なサウンドID %d"%id)
+		return
+	
+	var path = "res://assets/sound/se/%s.wav"%name
+	if FileAccess.file_exists(path) == false:
+		push_error("存在しないサウンド %s"%path)
+		return
+	
+	var snd = _snds[id]
+	snd.stream = load(path)
+	snd.play()
 
 # --------------------------------------------------
 # properties.

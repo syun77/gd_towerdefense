@@ -36,4 +36,5 @@ func update_manual(delta: float) -> void:
 func _ready() -> void:
 	# 最初は消しておく.
 	visible = false
+	Common.play_se("laser", 4)
 

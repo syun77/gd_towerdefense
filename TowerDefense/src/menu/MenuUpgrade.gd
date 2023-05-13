@@ -75,16 +75,19 @@ func _on_button_buy_power_pressed() -> void:
 	_tower.power_lv += 1
 	# お金を減らす.
 	Common.spend_money(_cost_power)
+	Common.play_se("upgrade")
 	_refresh_buttons()
 
 func _on_button_buy_range_pressed() -> void:
 	_tower.range_lv += 1
 	# お金を減らす.
 	Common.spend_money(_cost_range)
+	Common.play_se("upgrade")
 	_refresh_buttons()
 
 func _on_button_buy_firerate_pressed() -> void:
 	_tower.firerate_lv += 1
 	# お金を減らす.
 	Common.spend_money(_cost_firerate)
+	Common.play_se("upgrade")
 	_refresh_buttons()

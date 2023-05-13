@@ -81,6 +81,7 @@ func damage(shot:Shot) -> void:
 		# 消滅.
 		vanish()
 		var pos = global_position
+		Common.play_se("destroy")
 		
 		# お金ゲット!
 		var money = Game.enemy_money(Common.wave)
@@ -91,6 +92,9 @@ func damage(shot:Shot) -> void:
 		var time = 1.0
 		var color = Color.LIME
 		Common.start_particle_enemy(pos, time, color)
+	else:
+		Common.play_se("hit", 1)
+
 
 ## 消滅.
 func vanish() -> void:

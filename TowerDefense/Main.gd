@@ -57,6 +57,7 @@ const WAVE_START_OBJ = preload("res://src/WaveStart.tscn")
 @onready var _shot_layer = $ShotLayer
 @onready var _particle_layer = $ParticleLayer
 @onready var _ui_layer = $UILayer
+@onready var _bgm = $BGM
 # UI.
 @onready var _ui_vignette = $UILayer/VignetteFilter
 @onready var _ui_pause_bg = $UILayer/PauseBG
@@ -95,6 +96,8 @@ var _timer_shake = 0.0
 var _cnt = 0
 var _timeout = 0.0
 var _timer_vignette = 0.0
+var _now_bgm = ""
+var _next_bgm = ""
 
 # --------------------------------------------------
 # private function.
@@ -121,7 +124,7 @@ func _ready() -> void:
 		"particle": _particle_layer,
 		"ui": _ui_layer,
 	}
-	Common.setup(layers)
+	Common.setup(layers, self)
 	
 	# タイルマップを渡す.
 	Map.setup(_tilemap)
@@ -131,6 +134,12 @@ func _ready() -> void:
 	
 	_change_help(eHelp.BUY)
 	_timeout = TIME_OUT
+	
+	# BGM再生開始.
+	_now_bgm = Common.get_bgm_path(true)
+	_bgm.stream = load(_now_bgm)
+	_bgm.play()
+	_next_bgm = _now_bgm # nextに入れておく.
 
 ## 更新.
 func _physics_process(delta: float) -> void:
@@ -167,6 +176,9 @@ func _physics_process(delta: float) -> void:
 
 	# UIの更新.
 	_update_ui(delta)
+	
+	# サウンドの更新.
+	_update_bgm()
 
 ## 更新 > 待機中.
 func _update_standby(delta:float):
@@ -174,6 +186,9 @@ func _update_standby(delta:float):
 		# 自由操作 and 時間経過.
 		_timeout -= delta
 	if _start_next_wave or _timeout <= 0.0:
+		_next_bgm = Common.get_bgm_path()
+		Common.play_se("start", 2)
+		
 		_ui_next_wave.visible = false
 		_start_next_wave = false
 		
@@ -214,6 +229,7 @@ func _update_main(delta:float):
 	_state = eState.STANDBY
 	
 func _update_gameover(_delta:float) -> void:
+	_bgm.stop()
 	_ui_caption.visible = true
 	if Input.is_action_just_pressed("click"):
 		# リスタート.
@@ -323,6 +339,7 @@ func _exec_build(cost:int) -> void:
 	tower.setup(_ui_cursor.position, _buy_type)
 	# お金を減らす.
 	Common.spend_money(cost)
+	Common.play_se("build")
 
 ## ビルドをキャンセル.
 func _cancel_build() -> void:
@@ -404,6 +421,7 @@ func _update_camera(delta:float) -> void:
 		# 揺れ開始.
 		_timer_shake = TIMER_SHAKE
 		_timer_vignette = TIMER_VIGNETTE
+		Common.play_se("break")
 	
 	_camera.offset = Vector2.ZERO
 	if _timer_shake <= 0.0:
@@ -420,7 +438,10 @@ func _update_vignette(delta:float) -> void:
 	if _timer_vignette <= 0.0:
 		_set_vignette(0)
 		return
-	_timer_vignette -= delta
+	if Common.is_dead():
+		pass # ゲームオーバー時は減らさない.
+	else:
+		_timer_vignette -= delta
 	var rate = _timer_vignette / TIMER_VIGNETTE
 	var intensity = 0.4 * (1.0 - Common.healt_ratio())
 	_set_vignette(rate, intensity)
@@ -465,7 +486,27 @@ func _update_ui(delta:float) -> void:
 	Common.game_speed = _ui_game_speed.value
 	_ui_game_speed_label.text = "SPEED x%3.1f"%Common.game_speed
 
-
+	
+## サウンドの更新.
+func _update_bgm():
+	if _now_bgm == _next_bgm:
+		return # 変更不要.
+		
+	var _can_change = true
+	if _bgm.playing:
+		var pos = _bgm.get_playback_position()
+		var stream:AudioStreamMP3 = _bgm.stream
+		var measure = stream.get_length() / stream.beat_count
+		measure *= 4 # 4小節単位で切り替える.
+		var d = fmod(pos, measure)
+		if 0.1 < d:
+			_can_change = false
+	if _can_change:
+		# BGM変更.
+		_now_bgm = _next_bgm
+		_bgm.stream = load(_now_bgm)
+		_bgm.play()
+			
 # --------------------------------------------------
 # signal functions.
 # --------------------------------------------------
