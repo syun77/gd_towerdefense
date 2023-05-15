@@ -25,6 +25,10 @@ Ease="*res://src/common/Ease.gd"
 
 window/stretch/mode="viewport"
 
+[editor]
+
+movie_writer/movie_file="movie.avi"
+
 [input]
 
 click={
